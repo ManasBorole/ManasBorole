@@ -1,0 +1,13 @@
+# Python (from assets/_generate.py)
+__pycache__/
+*.pyc
+
+# Local render/preview scratch
+.preview/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Private source material — never publish (your LinkedIn export)
+Profile.pdf

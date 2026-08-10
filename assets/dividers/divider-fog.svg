@@ -1,0 +1,33 @@
+<svg viewBox="0 0 1000 80" width="1000" height="80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="fog divider">
+  
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0D141A"/>
+      <stop offset="1" stop-color="#0A0E12"/>
+    </linearGradient>
+    <linearGradient id="tealGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#4CC9C0"/>
+      <stop offset="1" stop-color="#7FE9DF"/>
+    </linearGradient>
+    <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#4CC9C0" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#4CC9C0" stop-opacity="1"/>
+      <stop offset="1" stop-color="#E9A85A" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="2.4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+ <style>.f{animation:drift 12s ease-in-out infinite}
+    @keyframes drift{0%,100%{transform:translateX(-40px);opacity:.12}50%{transform:translateX(40px);opacity:.28}}
+    .f2{animation:drift2 16s ease-in-out infinite}
+    @keyframes drift2{0%,100%{transform:translateX(30px);opacity:.1}50%{transform:translateX(-30px);opacity:.22}}</style>
+  <ellipse class="f"  cx="380" cy="46" rx="360" ry="26" fill="#4CC9C0" filter="url(#softGlow)"/>
+  <ellipse class="f2" cx="680" cy="40" rx="320" ry="22" fill="#2C6E6A" filter="url(#softGlow)"/>
+  <line x1="0" y1="62" x2="1000" y2="62" stroke="#20303A" stroke-width="1"/>
+</svg>

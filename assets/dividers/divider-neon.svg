@@ -1,0 +1,30 @@
+<svg viewBox="0 0 1000 30" width="1000" height="30" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="neon divider">
+  
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0D141A"/>
+      <stop offset="1" stop-color="#0A0E12"/>
+    </linearGradient>
+    <linearGradient id="tealGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#4CC9C0"/>
+      <stop offset="1" stop-color="#7FE9DF"/>
+    </linearGradient>
+    <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#4CC9C0" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#4CC9C0" stop-opacity="1"/>
+      <stop offset="1" stop-color="#E9A85A" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="2.4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+ <style>.g{animation:gl 3s ease-in-out infinite}
+    @keyframes gl{0%,100%{opacity:.5}50%{opacity:1}}</style>
+  <line class="g" x1="120" y1="15" x2="880" y2="15" stroke="url(#fade)" stroke-width="2" filter="url(#glow)"/>
+  <polygon class="g" points="500,6 512,15 500,24 488,15" fill="#E9A85A" filter="url(#glow)"/>
+</svg>
