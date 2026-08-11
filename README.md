@@ -14,7 +14,7 @@
 
 </div>
 
-<!-- Hero status cards. Plain table = fully editable, the cinematic frame lives in the assets around it. -->
+<!-- Hero status cards -->
 
 <div align="center">
 
@@ -103,11 +103,9 @@ From the founder years: scope, delivery, and the parts nobody wants to own.
 
 <img src="assets/projects/multiplexer-banner.svg" width="100%" alt="Multiplexer - an LLM gateway that learns which model to call" />
 
-<!-- Cover: a PNG renders reliably on GitHub and links to the live demo.
-     For a true INLINE video, upload the .mp4 as a GitHub attachment and paste its
-     github.com/user-attachments/assets/... URL on its own line here (see notes). -->
 <video src="https://github.com/user-attachments/assets/b7ba15a4-9953-4809-a1cf-742aad85d560" poster="assets/projects/multiplexer-cover.png" controls muted loop playsinline width="100%">
-<a href="https://multiplexer-routes.vercel.app"><img src="assets/projects/multiplexer-cover.png" width="100%" alt="Multiplexer - open the live demo" /></a>
+  <a href="https://multiplexer-routes.vercel.app"><img src="assets/projects/multiplexer-cover.png" width="100%" alt="Multiplexer - open the live demo" /></a>
+</video>
 
 **What it is.** An LLM gateway that learns, *per request*, which model to call. Instead of hard-wiring every call to one provider, it scores the incoming request and routes it to whichever model gives the best answer for the cost and latency you are willing to pay.
 
@@ -131,11 +129,9 @@ From the founder years: scope, delivery, and the parts nobody wants to own.
 
 <img src="assets/projects/christopher-banner.svg" width="100%" alt="Christopher - a voice tutor you can talk to in real time" />
 
-<!-- Cover: a PNG renders reliably on GitHub and links to the live demo.
-     For a true INLINE video, upload the .mp4 as a GitHub attachment and paste its
-     github.com/user-attachments/assets/... URL on its own line here (see notes). -->
-<video src="Phttps://github.com/user-attachments/assets/e55e59c2-414e-442f-bcac-faf303a24627" poster="assets/projects/christopher-cover.png" controls muted loop playsinline width="100%">
-<a href="https://christopherai.vercel.app"><img src="assets/projects/christopher-cover.png" width="100%" alt="Christopher - open the live demo" /></a>
+<video src="https://github.com/user-attachments/assets/e55e59c2-414e-442f-bcac-faf303a24627" poster="assets/projects/christopher-cover.png" controls muted loop playsinline width="100%">
+  <a href="https://christopherai.vercel.app"><img src="assets/projects/christopher-cover.png" width="100%" alt="Christopher - open the live demo" /></a>
+</video>
 
 **What it is.** A voice tutor you can actually talk to, out loud, in real time, in 180+ languages. It holds a live spoken conversation, remembers what you worked on last time, and scores your pronunciation as you go.
 
@@ -155,7 +151,7 @@ From the founder years: scope, delivery, and the parts nobody wants to own.
 
 <img src="assets/dividers/divider-neon.svg" width="100%" alt="" />
 
-<!-- -- Also built (grid) -- -->
+<!-- -- Also built -- -->
 
 <div align="center"><sub>ALSO IN THE HANGAR</sub></div>
 
