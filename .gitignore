@@ -9,5 +9,8 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-# Private source material — never publish (your LinkedIn export)
+# Private source material - never publish (your LinkedIn export)
 Profile.pdf
+
+# Large demo videos - too big for the repo. Upload as GitHub attachments instead.
+*.mp4

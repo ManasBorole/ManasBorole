@@ -19,32 +19,68 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 # ----------------------------------------------------------------------------
 # PALETTE  (edit here -> re-run -> whole profile restyles)
+#
+# Every color token now resolves to a CSS variable, so a single injected
+# <style> block themes the whole SVG. prefers-color-scheme lets each asset
+# follow the visitor's GitHub theme: dark stays as designed, light gets a
+# GitHub-light-friendly palette. Scenes/terminal opt out (adaptive=False).
 # ----------------------------------------------------------------------------
 P = {
-    "__BG__":     "#0A0E12",
-    "__BG2__":    "#0D141A",
-    "__SURF__":   "#121A20",
-    "__SURF2__":  "#16232B",
-    "__TEAL__":   "#4CC9C0",
-    "__TEALG__":  "#7FE9DF",
-    "__TEALD__":  "#2C6E6A",
-    "__AMBER__":  "#E9A85A",
-    "__AMBERG__": "#F4C889",
-    "__TEXT__":   "#E8EEEC",
-    "__MUTE__":   "#7E938C",
-    "__LINE__":   "#20303A",
+    "__BG__":     "var(--bg)",
+    "__BG2__":    "var(--bg2)",
+    "__SURF__":   "var(--surf)",
+    "__SURF2__":  "var(--surf2)",
+    "__TEAL__":   "var(--teal)",
+    "__TEALG__":  "var(--tealg)",
+    "__TEALD__":  "var(--teald)",
+    "__AMBER__":  "var(--amber)",
+    "__AMBERG__": "var(--amberg)",
+    "__TEXT__":   "var(--text)",
+    "__MUTE__":   "var(--mute)",
+    "__LINE__":   "var(--line)",
 }
+
+# Dark values (design baseline) + light overrides for light-mode visitors.
+_DARK = {
+    "bg": "#0A0E12", "bg2": "#0D141A", "surf": "#121A20", "surf2": "#16232B",
+    "teal": "#4CC9C0", "tealg": "#7FE9DF", "teald": "#2C6E6A",
+    "amber": "#E9A85A", "amberg": "#F4C889",
+    "text": "#E8EEEC", "mute": "#7E938C", "line": "#20303A",
+}
+# Light: GitHub light surface, deepened accents that read on white, ink text.
+_LIGHT = {
+    "bg": "#F6F8FA", "bg2": "#FFFFFF", "surf": "#FFFFFF", "surf2": "#F2F5F8",
+    "teal": "#0E7C74", "tealg": "#0E8C82", "teald": "#8FB7B3",
+    "amber": "#B9761A", "amberg": "#C98A2A",
+    "text": "#1F2328", "mute": "#57606A", "line": "#D0D7DE",
+}
+
+
+def _theme_style(adaptive):
+    root = ";".join("--%s:%s" % (k, v) for k, v in _DARK.items())
+    block = "<style>:root{%s}" % root
+    if adaptive:
+        light = ";".join("--%s:%s" % (k, v) for k, v in _LIGHT.items())
+        # In light mode also calm the neon: hide scanlines, soften glow.
+        block += ("@media(prefers-color-scheme:light){:root{%s}"
+                  ".scanpanel{opacity:0}}" % light)
+    return block + "</style>"
+
 
 SANS = "'Segoe UI', -apple-system, Helvetica, Arial, sans-serif"
 MONO = "ui-monospace, 'SF Mono', 'Cascadia Code', 'Consolas', monospace"
 
 
-def save(relpath, svg, extra=None):
+def save(relpath, svg, extra=None, adaptive=True):
     tokens = dict(P)
     if extra:
         tokens.update(extra)
     for k, v in tokens.items():
         svg = svg.replace(k, v)
+    # Inject the theme <style> right after the opening <svg ...> tag.
+    i = svg.find(">", svg.find("<svg"))
+    if i != -1:
+        svg = svg[:i + 1] + "\n  " + _theme_style(adaptive) + svg[i + 1:]
     path = os.path.join(HERE, relpath)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
@@ -84,7 +120,7 @@ def defs():
 # Faint scanline overlay used across many assets.
 def scanlines(w, h, opacity="0.05"):
     return (
-        '<g opacity="%s">' % opacity
+        '<g class="scanpanel" opacity="%s">' % opacity
         + "".join(
             '<rect x="0" y="%d" width="%d" height="1" fill="__TEAL__"/>' % (y, w)
             for y in range(0, h, 4)
@@ -196,7 +232,7 @@ def hero():
            .replace("__FAR__", pts_far).replace("__NEAR__", pts_near)
            .replace("__SCAN__", scanlines(w, h))
            .replace("__SANS__", SANS).replace("__MONO__", MONO))
-    save("hero/hero-banner.svg", svg)
+    save("hero/hero-banner.svg", svg, adaptive=False)
 
 
 # ----------------------------------------------------------------------------
@@ -682,7 +718,8 @@ def terminal():
          svg.replace("__W__", str(w)).replace("__H__", str(h)).replace("__MID__", str(w // 2))
          .replace("__DEFS__", defs()).replace("__CSS__", css)
          .replace("__SCAN__", scanlines(w, h, "0.04"))
-         .replace("__BODY__", body).replace("__SANS__", SANS).replace("__MONO__", MONO))
+         .replace("__BODY__", body).replace("__SANS__", SANS).replace("__MONO__", MONO),
+         adaptive=False)
 
 
 # ----------------------------------------------------------------------------
@@ -940,7 +977,8 @@ def ending():
          .replace("__DEFS__", defs()).replace("__CSS__", css)
          .replace("__STARS__", stars).replace("__PTS__", pts)
          .replace("__SCAN__", scanlines(w, h, "0.04"))
-         .replace("__SANS__", SANS).replace("__MONO__", MONO))
+         .replace("__SANS__", SANS).replace("__MONO__", MONO),
+         adaptive=False)
 
 
 # ----------------------------------------------------------------------------

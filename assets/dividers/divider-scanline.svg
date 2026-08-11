@@ -1,18 +1,19 @@
 <svg viewBox="0 0 1000 40" width="1000" height="40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="divider">
+  <style>:root{--bg:#0A0E12;--bg2:#0D141A;--surf:#121A20;--surf2:#16232B;--teal:#4CC9C0;--tealg:#7FE9DF;--teald:#2C6E6A;--amber:#E9A85A;--amberg:#F4C889;--text:#E8EEEC;--mute:#7E938C;--line:#20303A}@media(prefers-color-scheme:light){:root{--bg:#F6F8FA;--bg2:#FFFFFF;--surf:#FFFFFF;--surf2:#F2F5F8;--teal:#0E7C74;--tealg:#0E8C82;--teald:#8FB7B3;--amber:#B9761A;--amberg:#C98A2A;--text:#1F2328;--mute:#57606A;--line:#D0D7DE}.scanpanel{opacity:0}}</style>
   
   <defs>
     <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#0D141A"/>
-      <stop offset="1" stop-color="#0A0E12"/>
+      <stop offset="0" stop-color="var(--bg2)"/>
+      <stop offset="1" stop-color="var(--bg)"/>
     </linearGradient>
     <linearGradient id="tealGrad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#4CC9C0"/>
-      <stop offset="1" stop-color="#7FE9DF"/>
+      <stop offset="0" stop-color="var(--teal)"/>
+      <stop offset="1" stop-color="var(--tealg)"/>
     </linearGradient>
     <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#4CC9C0" stop-opacity="0"/>
-      <stop offset="0.5" stop-color="#4CC9C0" stop-opacity="1"/>
-      <stop offset="1" stop-color="#E9A85A" stop-opacity="0"/>
+      <stop offset="0" stop-color="var(--teal)" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="var(--teal)" stop-opacity="1"/>
+      <stop offset="1" stop-color="var(--amber)" stop-opacity="0"/>
     </linearGradient>
     <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
       <feGaussianBlur stdDeviation="2.4" result="b"/>
@@ -25,7 +26,7 @@
   </defs>
  <style>.s{animation:mv 5s linear infinite}
     @keyframes mv{0%{transform:translateX(-1000px)}100%{transform:translateX(1000px)}}</style>
-  <line x1="0" y1="20" x2="1000" y2="20" stroke="#20303A" stroke-width="1"/>
+  <line x1="0" y1="20" x2="1000" y2="20" stroke="var(--line)" stroke-width="1"/>
   <rect class="s" x="0" y="18" width="240" height="3" fill="url(#fade)" filter="url(#glow)"/>
-  <circle cx="500" cy="20" r="3" fill="#E9A85A" filter="url(#glow)"/>
+  <circle cx="500" cy="20" r="3" fill="var(--amber)" filter="url(#glow)"/>
 </svg>
