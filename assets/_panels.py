@@ -262,11 +262,71 @@ def arrivals():
     return panel(H, "ARRIVALS  /  TERMINAL M", "GATE 01", body, ROBOT_CSS)
 
 
+PAPER, PINK = "#F4EFE4", "#1B2329"
+
+
+# ------------------------------------------------------------------ Christopher: airmail postcards, one slip, one correction, in six scripts
+def postcards():
+    H, per = 380, 4.5
+    lessons = [("ES", "Español", ("Ayer yo ", "voy", " al mercado."), ("Casi. Ayer ", "fui", " al mercado.")),
+               ("FR", "Français", ("Hier je ", "vais", " au marché."), ("Presque. Hier je ", "suis allé", " au marché.")),
+               ("HI", "हिन्दी", ("कल मैं बाज़ार ", "जाता हूँ", "।"), ("लगभग! कल मैं बाज़ार ", "गया था", "।")),
+               ("JA", "日本語", ("昨日、市場に", "行きます", "。"), ("おしい！昨日、市場に", "行きました", "。")),
+               ("DE", "Deutsch", ("Gestern ", "gehe ich", " zum Markt."), ("Fast! Gestern ", "bin ich", " zum Markt gegangen.")),
+               ("PT", "Português", ("Ontem eu ", "vou", " ao mercado."), ("Quase! Ontem eu ", "fui", " ao mercado."))]
+    T = per * len(lessons)
+    pc = lambda t: f"{100 * t / T:.3f}%"
+    cx, cy, cw, chh = 150, 78, 540, 236
+    rnd = random.Random(11)
+    stripes = "".join(f'<path d="M{k},0 l14,0 l-14,14 l-14,0 z" fill="{AMBER if (k // 28) % 2 else TEAL}"/>' for k in range(0, cw + 28, 28))
+
+    def card(code, name, you, fix, i):
+        wave = ""
+        for k in range(46):
+            h = 4 + 16 * rnd.random()
+            slip = 20 <= k <= 28
+            wave += (f'<rect x="{40 + k * 6}" y="{120 - h / 2:.1f}" width="3" height="{h:.1f}" rx="1.5" fill="{AMBER if slip else "#9aa4a8"}"'
+                     + (' class="slip"/>' if slip else "/>"))
+        a, b, c = you
+        d, e, f = fix
+        return (f'<g class="card c{i}">'
+                f'<rect x="4" y="6" width="{cw}" height="{chh}" rx="6" fill="#000" opacity=".35" filter="url(#soft)"/>'
+                f'<rect width="{cw}" height="{chh}" rx="6" fill="{PAPER}"/>'
+                f'<clipPath id="ce{i}"><rect width="{cw}" height="{chh}" rx="6"/></clipPath>'
+                f'<g clip-path="url(#ce{i})"><g>{stripes}</g><g transform="translate(0,{chh - 14})">{stripes}</g></g>'
+                f'<rect x="{cw - 96}" y="26" width="70" height="80" rx="3" fill="#fff" stroke="{PINK}" stroke-dasharray="3 3"/>'
+                f'<text x="{cw - 61}" y="66" font-size="26" font-weight="800" fill="{TEAL}" text-anchor="middle" class="m">{code}</text>'
+                f'<text x="{cw - 61}" y="90" font-size="12" fill="{PINK}" text-anchor="middle">{name}</text>'
+                f'<text x="40" y="58" class="m" font-size="11" letter-spacing="2" fill="#6b7478">YOU SAID</text>'
+                f'<text x="40" y="90" font-size="23" fill="{PINK}">{a}<tspan fill="{AMBER}" font-weight="700" text-decoration="underline">{b}</tspan>{c}</text>'
+                f'{wave}<text x="40" y="146" font-size="11" fill="#6b7478">the slip, heard in the audio rather than read from a transcript</text>'
+                f'<g class="reply r{i}"><text x="40" y="172" class="m" font-size="11" letter-spacing="2" fill="#6b7478">CHRISTOPHER</text>'
+                f'<text x="40" y="202" font-size="23" fill="{PINK}">{d}<tspan fill="{TEAL}" font-weight="700">{e}</tspan>{f}</text></g></g>')
+
+    body = ""
+    for k in range(3):  # cards already delivered, stacked behind
+        body += (f'<rect x="{cx + 10 + k * 8}" y="{cy - 6 + k * 6}" width="{cw}" height="{chh}" rx="6" fill="{PAPER}" '
+                 f'opacity="{.07 + k * .04:.2f}" transform="rotate({-3 + k * 2.2} {cx + cw / 2} {cy + chh / 2})"/>')
+    css = ".slip{animation:pulse 1s ease-in-out infinite}"
+    for i, (code, name, you, fix) in enumerate(lessons):
+        body += f'<g transform="translate({cx},{cy})">{card(code, name, you, fix, i)}</g>'
+        t0 = i * per
+        a0, a1, h1, l1 = t0, t0 + .6, t0 + per - .5, t0 + per
+        css += (f".c{i}{{opacity:0;transform-box:fill-box;transform-origin:center;animation:c{i} {T}s infinite}}"
+                f"@keyframes c{i}{{0%,{pc(a0)}{{opacity:0;transform:translate(640px,-80px) rotate(14deg)}}"
+                f"{pc(a1)},{pc(h1)}{{opacity:1;transform:translate(0,0) rotate(-1.5deg)}}"
+                f"{pc(l1)},100%{{opacity:0;transform:translate(-640px,60px) rotate(-16deg)}}}}"
+                f".r{i}{{opacity:0;animation:r{i} {T}s infinite}}@keyframes r{i}{{0%,{pc(t0 + 1.9)}{{opacity:0}}{pc(t0 + 2.3)},{pc(h1)}{{opacity:1}}{pc(l1)},100%{{opacity:0}}}}")
+    body += f'<text x="36" y="{H - 24}" font-size="12" fill="{MUTE}">One slip on the past tense, caught by ear and corrected, the way Christopher\'s own demo plays it across 14 languages.</text>'
+    return panel(H, "AIRMAIL  /  CHRISTOPHER", "183 LANGUAGES", body, css)
+
+
 ALT = {
     "board": 'Departures board for Manas Borole, flipping on a loop. Now: UK RegTech fintech. Building: Backchannel. Shipping: Odyssey. Learning: voice AI at real latency. Open for: problems that ship.',
     "atc": 'Air traffic control for Multiplexer: 500 real routing decisions replayed. It tries every model, settles on one, loses it at request 300 and recovers within about 50 requests, spending $0.07 where the flagship would cost $1.81.',
     "customs": 'The companion robot, as Odyssey, carries a purchase order past stock, budget and risk checks, waits at customs until a person stamps it approved, then goes on to Xero and HubSpot.',
-    "arrivals": 'The companion robot waves at arrivals. Say hi.'}
+    "arrivals": 'The companion robot waves at arrivals. Say hi.',
+    "postcards": 'Airmail postcards in Spanish, French, Hindi, Japanese, German and Portuguese. In each, the learner slips on the past tense, Christopher hears it in the audio and replies with the correction.'}
 
 
 PANELS = {
@@ -274,6 +334,7 @@ PANELS = {
         "atc": lambda: atc(*load_benchmark()),
         "customs": lambda: customs(),
         "arrivals": lambda: arrivals(),
+        "postcards": lambda: postcards(),
 }
 
 
