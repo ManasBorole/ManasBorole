@@ -70,10 +70,52 @@ ROBOT_CSS = (".bob{animation:bob 1.1s ease-in-out infinite}@keyframes bob{50%{tr
              ".wave{animation:wv 1.4s ease-in-out infinite}@keyframes wv{50%{transform:rotate(-28deg)}}")
 
 
-ALT = {}
+# ------------------------------------------------------------------ departures board, flips on a loop like a real one
+def board():
+    rows = [("NOW", "UK REGTECH FINTECH", "ON AIR", TEAL), ("BUILDING", "BACKCHANNEL", "BOARDING", AMBER),
+            ("SHIPPING", "ODYSSEY", "BOARDING", AMBER), ("LEARNING", "VOICE AI REAL LATENCY", "IN FLIGHT", AMBER),
+            ("OPEN FOR", "PROBLEMS THAT SHIP", "ON TIME", TEAL)]
+    cw, ch, gap, P = 18, 30, 3, 16.0
+    rnd = random.Random(7)
+    abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    out, t = [], .3
+
+    def flap(x, y, c, delay, col):
+        s = (f'<rect x="{x}" y="{y}" width="{cw}" height="{ch}" rx="2.5" fill="#141b21"/>'
+             f'<rect x="{x}" y="{y + ch / 2 - .5}" width="{cw}" height="1" fill="#05080a"/>')
+        if c == " ":
+            return s
+        for k in range(3):
+            s += f'<text x="{x + cw / 2}" y="{y + ch - 8}" class="fc sc" fill="#56646a" style="animation-delay:{delay + k * .07:.2f}s">{rnd.choice(abc)}</text>'
+        return s + f'<text x="{x + cw / 2}" y="{y + ch - 8}" class="fc fi" fill="{col}" style="animation-delay:{delay + .21:.2f}s">{c}</text>'
+
+    def line(x, y, text, n, col):
+        nonlocal t
+        s = "".join(flap(x + i * (cw + gap), y, text.ljust(n)[i], t + i * .03, col) for i in range(n))
+        t += .1
+        return s
+
+    out.append(f'<text x="36" y="104" font-size="40" font-weight="800" fill="{TEXT}" letter-spacing="2" filter="url(#glow)" class="m">MANAS BOROLE</text>'
+               f'<text x="38" y="128" font-size="14" fill="{MUTE}">AI engineer in Pune. Real-time voice, model routing, and the systems under them.</text>')
+    out.append(f'<text x="36" y="184" class="sig">FLIGHT</text><text x="{36 + 9 * (cw + gap)}" y="184" class="sig">DESTINATION</text>'
+               f'<text x="{W - 36}" y="184" class="sig" text-anchor="end">STATUS</text>')
+    for i, (a, b, c, col) in enumerate(rows):
+        y = 204 + i * 42
+        out.append(line(36, y, a, 8, TEXT) + line(36 + 9 * (cw + gap), y, b, 21, TEXT))
+        out.append(f'<circle cx="{W - 152}" cy="{y + 15}" r="4" fill="{col}" class="pulse" filter="url(#glow)"/>'
+                   f'<text x="{W - 36}" y="{y + 20}" class="m fi" font-size="13" letter-spacing="2" fill="{col}" text-anchor="end" style="animation-delay:{t:.2f}s">{c}</text>')
+    css = (f".fc{{{MONO};font-size:19px;font-weight:700;text-anchor:middle}}"
+           f".sc{{opacity:0;animation:sc {P}s steps(1,end) infinite}}@keyframes sc{{0%{{opacity:1}}.45%,100%{{opacity:0}}}}"
+           f".fi{{opacity:0;animation:fi {P}s infinite}}@keyframes fi{{0%{{opacity:0}}.1%,94%{{opacity:1}}96%,100%{{opacity:0}}}}")
+    return panel(432, "DEPARTURES  /  TERMINAL M", "GATE 01", "".join(out), css)
+
+
+ALT = {
+    "board": 'Departures board for Manas Borole, flipping on a loop. Now: UK RegTech fintech. Building: Backchannel. Shipping: Odyssey. Learning: voice AI at real latency. Open for: problems that ship.'}
 
 
 PANELS = {
+        "board": lambda: board(),
 }
 
 
