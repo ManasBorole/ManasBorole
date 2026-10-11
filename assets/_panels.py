@@ -250,16 +250,30 @@ def customs():
     return panel(H, "CUSTOMS  /  ODYSSEY", "NOTHING CLEARS WITHOUT A PERSON", body, css)
 
 
+# ------------------------------------------------------------------ arrivals: the companion waves you in
+def arrivals():
+    H = 300
+    body = (f'<g transform="translate(70,40) scale(.92)">{robot(wave=True)}</g>'
+            f'<text x="330" y="132" font-size="30" font-weight="800" fill="{TEXT}" class="m" letter-spacing="2" filter="url(#glow)">ARRIVALS</text>'
+            f'<text x="332" y="166" font-size="15" fill="{MUTE}">If you are building something or stuck on something hard,</text>'
+            f'<text x="332" y="188" font-size="15" fill="{MUTE}">this is where you land. Say hi.</text>'
+            f'<circle cx="340" cy="222" r="4" fill="{TEAL}" class="pulse" filter="url(#glow)"/>'
+            f'<text x="354" y="227" class="m" font-size="13" letter-spacing="2" fill="{TEAL}">YOU  /  ON TIME</text>')
+    return panel(H, "ARRIVALS  /  TERMINAL M", "GATE 01", body, ROBOT_CSS)
+
+
 ALT = {
     "board": 'Departures board for Manas Borole, flipping on a loop. Now: UK RegTech fintech. Building: Backchannel. Shipping: Odyssey. Learning: voice AI at real latency. Open for: problems that ship.',
     "atc": 'Air traffic control for Multiplexer: 500 real routing decisions replayed. It tries every model, settles on one, loses it at request 300 and recovers within about 50 requests, spending $0.07 where the flagship would cost $1.81.',
-    "customs": 'The companion robot, as Odyssey, carries a purchase order past stock, budget and risk checks, waits at customs until a person stamps it approved, then goes on to Xero and HubSpot.'}
+    "customs": 'The companion robot, as Odyssey, carries a purchase order past stock, budget and risk checks, waits at customs until a person stamps it approved, then goes on to Xero and HubSpot.',
+    "arrivals": 'The companion robot waves at arrivals. Say hi.'}
 
 
 PANELS = {
         "board": lambda: board(),
         "atc": lambda: atc(*load_benchmark()),
         "customs": lambda: customs(),
+        "arrivals": lambda: arrivals(),
 }
 
 
