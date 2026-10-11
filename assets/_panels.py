@@ -321,12 +321,55 @@ def postcards():
     return panel(H, "AIRMAIL  /  CHRISTOPHER", "183 LANGUAGES", body, css)
 
 
+# ------------------------------------------------------------------ where I've been: boarding passes printing out of a kiosk
+def passes():
+    H, T = 420, 15.0
+    pc = lambda t: f"{100 * t / T:.3f}%"
+    legs = [("NSK", "2020", "B.Tech, CS (AI/ML)", "Sandip University", "CGPA 8.27, ran hackathons"),
+            ("NSK", "2022", "Founder, co-founder", "B&amp;B Fashion, Gullak", "learned what shipping costs"),
+            ("PNQ", "2024", "Software engineer", "IQCPL", "20+ clients, ~30% less chasing"),
+            ("PNQ", "2026", "Software engineer", "UK RegTech fintech, remote", "7 endpoints closed, 450+ tests")]
+    pw, ph, gap, top = 180, 290, 16, 66
+    x0 = (W - (4 * pw + 3 * gap)) / 2
+    rnd = random.Random(5)
+    body = (f'<rect x="{x0 - 14}" y="{top - 14}" width="{4 * pw + 3 * gap + 28}" height="14" rx="7" fill="#05080a" stroke="{LINE}"/>'
+            f'<rect x="{x0 - 14}" y="{top - 14}" width="{4 * pw + 3 * gap + 28}" height="3" rx="1.5" fill="{TEAL}" opacity=".5" class="pulse"/>')
+    css = ""
+    for i, (code, yr, role, org, note) in enumerate(legs):
+        x = x0 + i * (pw + gap)
+        bars = "".join(f'<rect x="{14 + k * 5}" y="{ph - 44}" width="{rnd.choice((1.5, 2.5, 3.5))}" height="26" fill="{PINK}"/>' for k in range(20))
+        p = (f'<rect width="{pw}" height="{ph}" rx="6" fill="{PAPER}"/>'
+             f'<rect width="{pw}" height="34" rx="6" fill="{TEAL}"/><rect y="20" width="{pw}" height="14" fill="{TEAL}"/>'
+             f'<text x="14" y="22" class="m" font-size="10" font-weight="700" letter-spacing="2" fill="{BG}">BOARDING PASS</text>'
+             f'<text x="{pw - 14}" y="22" class="m" font-size="10" fill="{BG}" text-anchor="end">MB {yr}</text>'
+             f'<text x="14" y="58" class="m" font-size="9" letter-spacing="1" fill="#6b7478">PASSENGER</text>'
+             f'<text x="14" y="72" class="m" font-size="12" font-weight="700" fill="{PINK}">BOROLE / MANAS</text>'
+             f'<text x="14" y="122" class="m" font-size="44" font-weight="800" fill="{PINK}">{code}</text>'
+             f'<text x="{pw - 14}" y="122" class="m" font-size="16" font-weight="700" fill="{AMBER}" text-anchor="end">{yr}</text>'
+             f'<text x="14" y="152" font-size="13" font-weight="700" fill="{PINK}">{role}</text>'
+             f'<text x="14" y="170" font-size="12" fill="{PINK}">{org}</text>'
+             f'<text x="14" y="194" font-size="11" fill="#6b7478">{note}</text>'
+             f'<line x1="8" y1="{ph - 62}" x2="{pw - 8}" y2="{ph - 62}" stroke="#9aa4a8" stroke-dasharray="4 4"/>'
+             f'<g class="stub s{i}">{bars}<text x="{pw - 14}" y="{ph - 22}" class="m" font-size="10" fill="#6b7478" text-anchor="end">GATE 0{i + 1}</text></g>')
+        body += (f'<clipPath id="slot{i}"><rect x="{x - 4}" y="{top}" width="{pw + 8}" height="{ph + 30}"/></clipPath>'
+                 f'<g clip-path="url(#slot{i})"><g transform="translate({x},{top})"><g class="pr p{i}">{p}</g></g></g>')
+        t0 = .4 + i * 1.6
+        css += (f".p{i}{{animation:p{i} {T}s infinite}}@keyframes p{i}{{0%,{pc(t0)}{{transform:translateY(-{ph + 10}px);animation-timing-function:steps(12,end)}}"
+                f"{pc(t0 + 1.4)},{pc(T - .8)}{{transform:translateY(0);opacity:1}}100%{{transform:translateY(0);opacity:0}}}}"
+                f".s{i}{{transform-box:fill-box;transform-origin:left top;animation:s{i} {T}s infinite}}"
+                f"@keyframes s{i}{{0%,{pc(t0 + 4.6)}{{transform:none}}{pc(t0 + 5.1)},{pc(T - .8)}{{transform:translate(4px,12px) rotate(4deg)}}100%{{transform:none}}}}")
+    body += (f'<circle cx="{W - 250}" cy="{H - 29}" r="4" fill="{AMBER}" class="pulse" filter="url(#glow)"/>'
+             f'<text x="{W - 238}" y="{H - 24}" class="m" font-size="12" letter-spacing="2" fill="{AMBERG}">NEXT: A COMPANY OF MY OWN</text>')
+    return panel(H, "BOARDING PASSES  /  HOW I GOT HERE", "2020 TO NOW", body, css)
+
+
 ALT = {
     "board": 'Departures board for Manas Borole, flipping on a loop. Now: UK RegTech fintech. Building: Backchannel. Shipping: Odyssey. Learning: voice AI at real latency. Open for: problems that ship.',
     "atc": 'Air traffic control for Multiplexer: 500 real routing decisions replayed. It tries every model, settles on one, loses it at request 300 and recovers within about 50 requests, spending $0.07 where the flagship would cost $1.81.',
     "customs": 'The companion robot, as Odyssey, carries a purchase order past stock, budget and risk checks, waits at customs until a person stamps it approved, then goes on to Xero and HubSpot.',
     "arrivals": 'The companion robot waves at arrivals. Say hi.',
-    "postcards": 'Airmail postcards in Spanish, French, Hindi, Japanese, German and Portuguese. In each, the learner slips on the past tense, Christopher hears it in the audio and replies with the correction.'}
+    "postcards": 'Airmail postcards in Spanish, French, Hindi, Japanese, German and Portuguese. In each, the learner slips on the past tense, Christopher hears it in the audio and replies with the correction.',
+    "passes": 'Four boarding passes print from a kiosk: Nashik 2020, B.Tech at Sandip University. Nashik 2022, founder and co-founder at B&B Fashion and Gullak. Pune 2024, software engineer at IQCPL. Pune 2026, software engineer, remote, for a UK RegTech fintech. Next: a company of my own.'}
 
 
 PANELS = {
@@ -335,6 +378,7 @@ PANELS = {
         "customs": lambda: customs(),
         "arrivals": lambda: arrivals(),
         "postcards": lambda: postcards(),
+        "passes": lambda: passes(),
 }
 
 
