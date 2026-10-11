@@ -202,14 +202,64 @@ def atc(run, rows):
     return panel(H, "AIR TRAFFIC CONTROL  /  MULTIPLEXER", "500 ARRIVALS  /  13 RUNWAYS", body, css, defs)
 
 
+# ------------------------------------------------------------------ customs: the companion is the agent, and a person stamps it through
+def customs():
+    H, floor, T = 360, 300, 13.0
+    pc = lambda t: f"{100 * t / T:.3f}%"
+    checks = [(250, "stock", 1.1), (350, "budget", 1.9), (450, "risks", 2.8)]
+    desk = 600
+    body = f'<line x1="36" y1="{floor}" x2="{W - 36}" y2="{floor}" stroke="{LINE}" stroke-width="2"/>'
+    for x, label, t in checks:
+        body += (f'<line x1="{x}" y1="{floor}" x2="{x}" y2="{floor - 120}" stroke="{LINE}" stroke-width="3"/>'
+                 f'<circle cx="{x}" cy="{floor - 128}" r="7" fill="{SURF2}" stroke="{LINE}"/>'
+                 f'<circle cx="{x}" cy="{floor - 128}" r="7" fill="{TEAL}" filter="url(#glow)" style="opacity:0;animation:lamp {T}s infinite;animation-delay:{t:.1f}s"/>'
+                 f'<text x="{x}" y="{floor - 146}" text-anchor="middle" class="sig">{label.upper()}</text>')
+    # the officer: a stickman behind the desk who lifts the stamp and brings it down
+    sx_, sy_ = desk + 58, floor - 108  # shoulder
+    stick = f'stroke="{TEXT}" stroke-width="3" stroke-linecap="round" fill="none"'
+    body += (f'<circle cx="{sx_}" cy="{floor - 132}" r="11" {stick}/>'
+             f'<path d="M{sx_},{floor - 121} L{sx_},{floor - 60} M{sx_},{sy_} L{sx_ + 22},{floor - 80}" {stick}/>'
+             f'<g class="chop" style="transform-origin:{sx_}px {sy_}px"><path d="M{sx_},{sy_} L{sx_ - 28},{sy_ + 16}" {stick}/>'
+             f'<rect x="{sx_ - 38}" y="{sy_ + 10}" width="14" height="16" rx="2" fill="{AMBER}"/></g>'
+             f'<rect x="{desk - 10}" y="{floor - 70}" width="110" height="70" rx="4" fill="{SURF}" stroke="{LINE}"/>'
+             f'<text x="{desk + 45}" y="{floor - 30}" text-anchor="middle" class="sig">CUSTOMS</text>')
+    # the stamp: comes down hard, leaves its mark
+    body += (f'<g class="stamp" style="transform-origin:{desk - 70}px {floor - 168}px">'
+             f'<rect x="{desk - 129}" y="{floor - 185}" width="118" height="34" rx="4" fill="{BG}" stroke="{AMBER}" stroke-width="2.5" transform="rotate(-8 {desk - 70} {floor - 168})"/>'
+             f'<text x="{desk - 70}" y="{floor - 163}" class="m" font-size="15" font-weight="800" fill="{AMBERG}" text-anchor="middle" letter-spacing="3" transform="rotate(-8 {desk - 70} {floor - 168})">APPROVED</text></g>')
+    # the barrier lifts once it is stamped
+    body += (f'<line x1="{desk + 112}" y1="{floor}" x2="{desk + 112}" y2="{floor - 64}" stroke="{TEXT}" stroke-width="3"/>'
+             f'<g class="bar" style="transform-origin:{desk + 112}px {floor - 58}px"><rect x="{desk + 112}" y="{floor - 62}" width="96" height="8" rx="3" fill="{AMBER}"/>'
+             + "".join(f'<rect x="{desk + 124 + k * 22}" y="{floor - 62}" width="10" height="8" fill="{BG}"/>' for k in range(4)) + '</g>'
+             f'<text x="{W - 40}" y="{floor + 24}" text-anchor="end" class="sig">TO XERO / HUBSPOT</text>')
+    # the agent itself, carrying the purchase order; a waiting bubble while nobody has said yes
+    body += (f'<g class="walk"><g transform="translate(60,{floor - 140}) scale(.56)">{robot(carry=True)}</g>'
+             f'<g class="wait"><rect x="130" y="{floor - 186}" width="58" height="26" rx="13" fill="{SURF2}" stroke="{TEAL}"/>'
+             + "".join(f'<circle cx="{146 + k * 13}" cy="{floor - 173}" r="3" fill="{TEALG}" style="animation:pulse 1s ease-in-out {k * .2:.1f}s infinite"/>' for k in range(3))
+             + '</g></g>')
+    body += f'<text x="36" y="{H - 24}" font-size="12" fill="{MUTE}">How Odyssey handles a purchase order: the model proposes, a person signs off, then it writes to HubSpot and Xero.</text>'
+    css = (ROBOT_CSS
+           + f".walk{{animation:walk {T}s infinite}}@keyframes walk{{0%{{transform:translateX(0);opacity:0}}3%{{opacity:1}}"
+             f"{pc(3.4)},{pc(8.2)}{{transform:translateX({desk - 200}px)}}{pc(10.6)}{{transform:translateX({desk + 60}px);opacity:1}}{pc(11.4)},100%{{transform:translateX({desk + 60}px);opacity:0}}}}"
+           + f".wait{{opacity:0;animation:wait {T}s infinite}}@keyframes wait{{0%,{pc(3.5)}{{opacity:0}}{pc(3.8)},{pc(7.0)}{{opacity:1}}{pc(7.2)},100%{{opacity:0}}}}"
+           + f"@keyframes lamp{{0%{{opacity:0}}2%,{100 - 100 * 1.8 / T:.1f}%{{opacity:1}}100%{{opacity:0}}}}"
+           + f".stamp{{opacity:0;animation:stamp {T}s infinite}}@keyframes stamp{{0%,{pc(7.0)}{{opacity:0;transform:scale(2.2)}}{pc(7.25)}{{opacity:1;transform:scale(.94)}}{pc(7.4)},{pc(12.4)}{{opacity:1;transform:scale(1)}}100%{{opacity:0}}}}"
+           + f".chop{{animation:chop {T}s infinite}}@keyframes chop{{0%,{pc(5.6)}{{transform:rotate(-20deg)}}{pc(6.5)},{pc(6.75)}{{transform:rotate(125deg)}}"
+             f"{pc(7.0)}{{transform:rotate(-12deg)}}{pc(7.6)},100%{{transform:rotate(-20deg)}}}}"
+           + f".bar{{animation:bar {T}s infinite}}@keyframes bar{{0%,{pc(7.6)}{{transform:rotate(0)}}{pc(8.2)},{pc(11.6)}{{transform:rotate(-75deg)}}{pc(12.2)},100%{{transform:rotate(0)}}}}")
+    return panel(H, "CUSTOMS  /  ODYSSEY", "NOTHING CLEARS WITHOUT A PERSON", body, css)
+
+
 ALT = {
     "board": 'Departures board for Manas Borole, flipping on a loop. Now: UK RegTech fintech. Building: Backchannel. Shipping: Odyssey. Learning: voice AI at real latency. Open for: problems that ship.',
-    "atc": 'Air traffic control for Multiplexer: 500 real routing decisions replayed. It tries every model, settles on one, loses it at request 300 and recovers within about 50 requests, spending $0.07 where the flagship would cost $1.81.'}
+    "atc": 'Air traffic control for Multiplexer: 500 real routing decisions replayed. It tries every model, settles on one, loses it at request 300 and recovers within about 50 requests, spending $0.07 where the flagship would cost $1.81.',
+    "customs": 'The companion robot, as Odyssey, carries a purchase order past stock, budget and risk checks, waits at customs until a person stamps it approved, then goes on to Xero and HubSpot.'}
 
 
 PANELS = {
         "board": lambda: board(),
         "atc": lambda: atc(*load_benchmark()),
+        "customs": lambda: customs(),
 }
 
 
