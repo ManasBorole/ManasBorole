@@ -429,6 +429,11 @@ ALT = {
     "passes": 'Four boarding passes print from a kiosk: Nashik 2020, B.Tech at Sandip University. Nashik 2022, founder and co-founder at B&B Fashion and Gullak. Pune 2024, software engineer at IQCPL. Pune 2026, software engineer, remote, for a UK RegTech fintech. Next: a company of my own.',
     "backchannel": 'A voice call replayed on two channels. The agent cuts the caller off during a thinking pause, talks over them for 1.1 seconds, then leaves 3.1 seconds of dead air. Below, the same call simulated with the fix: no cut-offs, no dead air.'}
 
+# GitHub only plays videos uploaded through its own editor, so these are user-attachments links
+VIDEO = {"mx": "https://github.com/user-attachments/assets/b7ba15a4-9953-4809-a1cf-742aad85d560",
+         "ch": "https://github.com/user-attachments/assets/e55e59c2-414e-442f-bcac-faf303a24627"}
+POSTER = {"mx": "assets/projects/multiplexer-trailer-poster.jpg", "ch": "assets/projects/christopher-trailer-poster.jpg"}
+
 
 PANELS = {
         "board": lambda: board(),
@@ -448,6 +453,7 @@ def main():
             f.write(build())
     if os.path.exists(TPL):
         md = open(TPL, encoding="utf-8").read()
+        md = re.sub(r"\{\{video:(\w+)\}\}", lambda m: f'<video src="{VIDEO[m[1]]}" poster="{POSTER[m[1]]}" controls playsinline width="100%"></video>', md)
         md = re.sub(r"\{\{(\w+)\}\}", lambda m: f'<img src="{OUT}/{m[1]}.svg" width="100%" alt="{ALT[m[1]]}">', md)
         open("README.md", "w", encoding="utf-8").write(md)
 

@@ -1,295 +1,130 @@
-<!--
-  +---------------------------------------------------------------------+
-  |  MANAS BOROLE - GitHub Profile README                               |
-  +---------------------------------------------------------------------+
--->
+<img src="assets/panels/board.svg" width="100%" alt="Departures board for Manas Borole, flipping on a loop. Now: UK RegTech fintech. Building: Backchannel. Shipping: Odyssey. Learning: voice AI at real latency. Open for: problems that ship.">
 
-> *You will not find a long commit history here. Most of my work lives in production codebases I do not have public access to, so this profile is a few things I built entirely on my own and actually shipped.*
+I build the parts of AI products that decide whether they feel effortless or fall apart under load: real-time voice, model routing, and agents you can safely give write access to.
 
-<!-- ==============================  HERO  ============================== -->
+Right now I'm a software engineer at a UK RegTech fintech, and on the side I'm teaching AI phone agents when to stop talking.
 
-<div align="center">
+[Portfolio](https://manasos.vercel.app) &nbsp;&#183;&nbsp; [LinkedIn](https://linkedin.com/in/manasborole) &nbsp;&#183;&nbsp; [Email](mailto:manasborole0712@gmail.com)
 
-<img src="assets/hero/hero-banner.svg" width="100%" alt="Manas Borole - AI Engineer. Systems that survive contact with production." />
+<sub>Most of my work lives in private codebases, so this page is what I built on my own and shipped. Every animation on it is real data, or a real behaviour of the system it shows.</sub>
 
-</div>
+## Multiplexer
 
-<!-- Hero status cards -->
+An LLM gateway that learns, per request, which of 13 models to call. LinUCB scores each request on cost, latency and quality, a judge grades the answer, and the grade feeds back into the router. When a model fails, the next healthy one answers.
 
-<div align="center">
+<img src="assets/panels/atc.svg" width="100%" alt="Air traffic control for Multiplexer: 500 real routing decisions replayed. It tries every model, settles on one, loses it at request 300 and recovers within about 50 requests, spending $0.07 where the flagship would cost $1.81.">
 
-|  ⟢ CURRENT MISSION  |  ⟢ LEARNING  |  ⟢ AVAILABLE FOR  |
-|:---|:---|:---|
-| Building an AI-powered workspace that helps teams collaborate and automate business operations. | Voice-native AI, real conversations at real latency. Distributed systems and routing LLMs on cost versus quality. | Hard problems. Ambitious products and AI systems. Work that ships. |
+That is 500 requests from its benchmark, replayed. On the Balanced setting it keeps about three quarters of the flagship's quality for under 5% of the spend. The hard part was making the reward honest, because a router is only as good as its definition of "better".
 
-</div>
+<video src="https://github.com/user-attachments/assets/b7ba15a4-9953-4809-a1cf-742aad85d560" poster="assets/projects/multiplexer-trailer-poster.jpg" controls playsinline width="100%"></video>
 
-<div align="center">
-  <a href="https://manasos.vercel.app"><b>Portfolio</b></a> &nbsp;&#183;&nbsp;
-  <a href="https://linkedin.com/in/manasborole"><b>LinkedIn</b></a> &nbsp;&#183;&nbsp;
-  <a href="https://github.com/ManasBorole"><b>GitHub</b></a> &nbsp;&#183;&nbsp;
-  <a href="mailto:manasborole0712@gmail.com"><b>Email</b></a>
-</div>
+[Try it](https://multiplexer-routes.vercel.app) &nbsp;&#183;&nbsp; [Source](https://github.com/ManasBorole/Multiplexer) &nbsp;&#183;&nbsp; <sub>TypeScript, Next.js, OpenRouter, Upstash</sub>
 
-<img src="assets/dividers/divider-scanline.svg" width="100%" alt="" />
+## Christopher
 
-<!-- ==============================  01 . MISSION  ============================== -->
+A language tutor you talk to out loud, in 183 languages. Speech goes straight from the browser to OpenAI's Realtime API over WebRTC, so replies come back fast enough to feel like a conversation. It grades pronunciation from the audio itself, because a transcript quietly fixes your mistakes before anyone can mark them.
 
-<img src="assets/sections/header-mission.svg" width="100%" alt="Mission Statement" />
+<img src="assets/panels/postcards.svg" width="100%" alt="Airmail postcards in Spanish, French, Hindi, Japanese, German and Portuguese. In each, the learner slips on the past tense, Christopher hears it in the audio and replies with the correction.">
+
+The tricky part was turn-taking. It waits for 550 ms of silence before deciding you've finished, which is long enough for a learner to hunt for a word without being interrupted.
+
+<video src="https://github.com/user-attachments/assets/e55e59c2-414e-442f-bcac-faf303a24627" poster="assets/projects/christopher-trailer-poster.jpg" controls playsinline width="100%"></video>
+
+[Try it](https://christopherai.vercel.app) &nbsp;&#183;&nbsp; [Source](https://github.com/ManasBorole/Christopher) &nbsp;&#183;&nbsp; <sub>WebRTC, OpenAI Realtime, React</sub>
+
+## Building now
+
+### Backchannel
+
+Voice agents rarely fail on what they say. They fail on when: jumping in before the caller finishes, talking over them, or leaving a silence that feels like a dropped call. Backchannel finds those moments in calls on Vapi, to the millisecond, and works out which turn-taking settings would have prevented them, with the evidence attached.
+
+<img src="assets/panels/backchannel.svg" width="100%" alt="A voice call replayed on two channels. The agent cuts the caller off during a thinking pause, talks over them for 1.1 seconds, then leaves 3.1 seconds of dead air. Below, the same call simulated with the fix: no cut-offs, no dead air.">
+
+<details>
+<summary>How it works, and where it stands</summary>
+<br>
+
+- Speech is detected on the caller and agent channels separately, with my own wrapper around Silero VAD, so overlaps and gaps are measured from the audio rather than guessed from a transcript.
+- A simulator of Vapi's own endpointing predicts when the agent would have started speaking, for any recorded call and any configuration. That means thousands of settings can be tested offline for free instead of paying for trial calls.
+- The best candidates are confirmed with paired real replays, then rolled out to a small share of calls first.
+- The live demo is a fictional clinic answered by a squad of AI receptionists. Call it, then watch your own call get diagnosed: timeline, flagged moments, and the fix.
+
+Done so far: the architecture and spec, a voice-detection layer that catches the start of speech within 18 ms at 60 to 150 times real time, the web-call pipeline, and durable background jobs. Next come the detectors and the endpointing simulator.
+
+The targets I'm holding myself to: simulator timing within 150 ms median error, published; detectors at 0.85 precision or better on hand-labelled turns; and before-and-after numbers on 50+ calls.
+
+<sub>TypeScript, Next.js, Vapi, Silero VAD (ONNX), Vercel Workflow, Neon Postgres, Cloudflare R2</sub>
+</details>
+
+Everyone measures how fast voice agents respond. Almost nobody measures whether they let you finish, and being cut off mid-sentence is the moment a caller decides they're talking to a machine. <sub>In active development, built in public. Live demo coming soon.</sub>
+
+### Odyssey
+
+An agent that turns a team's messages, emails and CRM webhooks into writes on live HubSpot and Xero accounts, but only after a person approves them.
+
+<img src="assets/panels/customs.svg" width="100%" alt="The companion robot, as Odyssey, carries a purchase order past stock, budget and risk checks, waits at customs until a person stamps it approved, then goes on to Xero and HubSpot.">
+
+Agents don't fail because they aren't smart enough. They fail because nobody will give them write access. So I built the permission layer first: one approval queue for every trigger, an allowlist that blocks hallucinated or injected writes, idempotency keys so a retry never writes twice, and per-user OAuth with encrypted tokens and signed webhooks. The model is the part that's easy to swap.
+
+[Try it](https://odysseylabs.vercel.app) &nbsp;&#183;&nbsp; <sub>Next.js, TypeScript, Anthropic and OpenAI, HubSpot, Xero, Prisma</sub>
+
+## Also built
 
 <table>
 <tr>
-<td width="140" valign="top"><img src="assets/characters/companion-standing.svg" width="120" alt="Companion" /></td>
-<td valign="middle">
-
-I work on the parts of a product that decide whether it feels effortless or falls apart under load: real-time voice, model routing, and the systems underneath them.
-
-The tools matter less to me than two questions. Does it hold up in production, and does anyone reach for it twice.
-
-Most of what I build starts as a hard problem someone actually has, and ends as something quiet enough that people stop noticing it is there.
-
-</td>
+<td width="50%"><a href="https://manasos.vercel.app"><img src="https://raw.githubusercontent.com/ManasBorole/ManasBorole/main/assets/projects/kazumi-thumb.png" width="100%" alt="Kazumi"></a><br>Kazumi, an AI wellbeing platform. I was tech lead for a team of five.</td>
+<td width="50%"><a href="https://github.com/ManasBorole/CryptChain"><img src="https://raw.githubusercontent.com/ManasBorole/ManasBorole/main/assets/projects/cryptchain-thumb.png" width="100%" alt="CryptChain"></a><br>CryptChain, a blockchain in plain Java with SHA-256 and proof-of-work, written from scratch.</td>
 </tr>
-</table>
-
-<img src="assets/dividers/divider-fog.svg" width="100%" alt="" />
-
-<!-- ==============================  02 . PHILOSOPHY  ============================== -->
-
-<img src="assets/sections/header-philosophy.svg" width="100%" alt="Engineering Philosophy" />
-
-<table>
 <tr>
-<td valign="top" width="50%">
-
-**Ship it, or it is not real.**
-A demo that never reaches a user is a nicer way of not finishing.
-
-**Ask *why* before you build.**
-The best people I have worked with question the problem before they touch the code.
-
-**People over tech.**
-The stack is a means. Whether anyone actually uses it is the metric.
-
-</td>
-<td valign="top" width="50%">
-
-**Measure, then optimize.**
-Guessing at bottlenecks is how you spend a week saving a millisecond.
-
-**Small systems age well.**
-Fewer moving parts, fewer 3am pages. Boring tech, ambitious product.
-
-**Own the whole thing.**
-From the founder years: scope, delivery, and the parts nobody wants to own.
-
-</td>
+<td width="50%"><a href="https://manasos.vercel.app"><img src="https://raw.githubusercontent.com/ManasBorole/ManasBorole/main/assets/projects/credit-thumb.png" width="100%" alt="Credit score classifier"></a><br>A random-forest credit score classifier, 85%+ accurate across tiers.</td>
+<td width="50%"><a href="https://manasos.vercel.app"><img src="https://raw.githubusercontent.com/ManasBorole/ManasBorole/main/assets/projects/music-thumb.png" width="100%" alt="Music recommender"></a><br>A music recommender built on the Spotify API.</td>
 </tr>
 </table>
 
-<div align="right"><sub><img src="assets/characters/companion-thinking.svg" width="96" alt="Companion, thinking" /></sub></div>
+## How I work
 
-<img src="assets/dividers/divider-rain.svg" width="100%" alt="" />
+Ship it, or it isn't real. A demo nobody uses is a nicer way of not finishing.<br>
+Measure first. Guessing at bottlenecks spends a week to save a millisecond.<br>
+Small systems age well. Fewer moving parts, fewer 3am pages.<br>
+Own the whole thing, including the parts nobody else wants.
 
-<!-- ==============================  03 . FEATURED PROJECTS  ============================== -->
+## How I got here
 
-<img src="assets/sections/header-projects.svg" width="100%" alt="Featured Projects" />
+<img src="assets/panels/passes.svg" width="100%" alt="Four boarding passes print from a kiosk: Nashik 2020, B.Tech at Sandip University. Nashik 2022, founder and co-founder at B&B Fashion and Gullak. Pune 2024, software engineer at IQCPL. Pune 2026, software engineer, remote, for a UK RegTech fintech. Next: a company of my own.">
 
-<div align="center"><sub><img src="assets/characters/companion-explaining.svg" width="88" alt="Companion, explaining" /> &nbsp; two live products, each its own landing page below</sub></div>
+<details>
+<summary>The full timeline</summary>
+<br>
 
-<br/>
+| | | |
+|---|---|---|
+| 2020 | B.Tech in CS (AI/ML), Sandip University | Graduated 2024 with a CGPA of 8.27. Ran hackathons with SUAISA. |
+| 2022 | Founder, B&B Fashion | Ran a real business end to end and learned what shipping costs. |
+| 2023 | Co-founder, Gullak | One of two founding engineers on an investing platform in Nashik. |
+| 2024 | Software Development Engineer, IQCPL | Built the certification and audit backend for 20+ clients in Pune. Cut auditor coordination by about 30%. |
+| 2026 | Shipped Odyssey, Multiplexer and Christopher | An approval-first agent, a learning router, and a voice tutor, all live. |
+| 2026 | Software engineer, UK RegTech fintech (remote) | Closed 7 unauthenticated endpoints and put 450+ tests behind the flows. |
+| Next | A company of my own | |
 
-<!-- -- Multiplexer -- -->
+</details>
 
-<img src="assets/projects/multiplexer-banner.svg" width="100%" alt="Multiplexer - an LLM gateway that learns which model to call" />
-
-<video src="https://github.com/user-attachments/assets/b7ba15a4-9953-4809-a1cf-742aad85d560" poster="assets/projects/multiplexer-cover.png" controls muted loop playsinline width="100%">
-  <a href="https://multiplexer-routes.vercel.app"><img src="assets/projects/multiplexer-cover.png" width="100%" alt="Multiplexer - open the live demo" /></a>
-</video>
-
-**What it is.** An LLM gateway that learns, *per request*, which model to call. Instead of hard-wiring every call to one provider, it scores the incoming request and routes it to whichever model gives the best answer for the cost and latency you are willing to pay.
-
-**How it works.** A LinUCB contextual bandit turns routing into an online-learning problem. Every response feeds latency, cost and quality back into the policy, so it gets sharper the more traffic it sees. A semantic cache short-circuits repeat questions, and a circuit breaker fails over when a provider degrades.
+## What I use
 
 | | |
 |---|---|
-| **Stack** | TypeScript, Node, contextual bandits, semantic caching |
-| **The hard part** | Making the reward signal honest. Routing is only as good as how you measure "better." |
-| **What I learned** | Online learning earns its keep exactly where the right answer changes with price, load and prompt. |
-| **Status** | 🟢 Live |
+| AI | LLM agents, tool calling, Anthropic and OpenAI SDKs, LLM-as-judge evals, contextual bandits, semantic caching |
+| Agent safety | Human approval steps, prompt-injection defence, server-side allowlists, fail-closed auth, idempotent writes |
+| Voice | WebRTC, OpenAI Realtime, Vapi, Silero VAD, turn-taking and endpointing |
+| Backend | Python, Django, FastAPI, Node.js, Java with Spring Boot, outbox and retry workers, circuit breakers, webhook reconciliation |
+| Data | PostgreSQL, Prisma, Neon, Redis, append-only audit trails |
+| Frontend | TypeScript, React, Next.js, Tailwind, Zustand |
+| Security | OAuth 2.0, OIDC, RBAC, row-level security, multi-tenancy, KMS encryption |
+| Testing | Vitest, Playwright, pytest, GitHub Actions |
 
-<div align="center">
-  <a href="https://multiplexer-routes.vercel.app"><b>▶ Live demo</b></a> &nbsp;&#183;&nbsp;
-  <a href="https://github.com/ManasBorole/Multiplexer"><b>&lt;/&gt; Source</b></a>
-</div>
+## Say hi
 
-<img src="assets/dividers/divider-particles.svg" width="100%" alt="" />
+<img src="assets/panels/arrivals.svg" width="100%" alt="The companion robot waves at arrivals. Say hi.">
 
-<!-- -- Christopher -- -->
+Building something, stuck on something hard, or want to argue about where AI is actually useful? Write to me. Some of the best things I've done started as a random conversation.
 
-<img src="assets/projects/christopher-banner.svg" width="100%" alt="Christopher - a voice tutor you can talk to in real time" />
-
-<video src="https://github.com/user-attachments/assets/e55e59c2-414e-442f-bcac-faf303a24627" poster="assets/projects/christopher-cover.png" controls muted loop playsinline width="100%">
-  <a href="https://christopherai.vercel.app"><img src="assets/projects/christopher-cover.png" width="100%" alt="Christopher - open the live demo" /></a>
-</video>
-
-**What it is.** A voice tutor you can actually talk to, out loud, in real time, in 180+ languages. It holds a live spoken conversation, remembers what you worked on last time, and scores your pronunciation as you go.
-
-**How it works.** Audio streams over WebRTC into a speech-to-speech Realtime API for sub-second back-and-forth. A memory layer persists context across sessions so lessons build on each other instead of starting cold. Transcripts and pronunciation feedback come back live, mid-conversation.
-
-| | |
-|---|---|
-| **Stack** | WebRTC, OpenAI Realtime API, persistent memory, React |
-| **The hard part** | Latency. Anything over a beat and a spoken conversation stops feeling like one. |
-| **What I learned** | Real-time voice is a systems problem long before it is an AI problem. |
-| **Status** | 🟢 Live |
-
-<div align="center">
-  <a href="https://christopherai.vercel.app"><b>▶ Live demo</b></a> &nbsp;&#183;&nbsp;
-  <a href="https://github.com/ManasBorole/Christopher"><b>&lt;/&gt; Source</b></a>
-</div>
-
-<img src="assets/dividers/divider-neon.svg" width="100%" alt="" />
-
-<!-- -- Also built -- -->
-
-<div align="center"><sub>ALSO IN THE HANGAR</sub></div>
-
-<table>
-<tr>
-<td width="50%" align="center">
-<a href="https://manasos.vercel.app"><img src="assets/projects/kazumi-thumb.png" width="100%" alt="Kazumi" /></a><br/>
-<b>Kazumi</b> - AI wellbeing platform. Led a five-person team as tech lead.
-</td>
-<td width="50%" align="center">
-<a href="https://github.com/ManasBorole/CryptChain"><img src="assets/projects/cryptchain-thumb.png" width="100%" alt="CryptChain" /></a><br/>
-<b>CryptChain</b> - A blockchain in pure Java. SHA-256, proof-of-work mining, from scratch.
-</td>
-</tr>
-<tr>
-<td width="50%" align="center">
-<a href="https://manasos.vercel.app"><img src="assets/projects/credit-thumb.png" width="100%" alt="Credit Score Classifier" /></a><br/>
-<b>Credit Score Classifier</b> - Random-forest model, 85%+ accuracy on credit tiers.
-</td>
-<td width="50%" align="center">
-<a href="https://manasos.vercel.app"><img src="assets/projects/music-thumb.png" width="100%" alt="Music Recommendation System" /></a><br/>
-<b>Music Recommender</b> - Personalized picks over the Spotify API.
-</td>
-</tr>
-</table>
-
-<img src="assets/dividers/divider-stars.svg" width="100%" alt="" />
-
-<!-- ==============================  04 . ARCHITECTURE GALLERY  ============================== -->
-
-<img src="assets/sections/header-architecture.svg" width="100%" alt="Architecture Gallery" />
-
-<div align="center">
-
-<img src="assets/projects/multiplexer-arch.svg" width="100%" alt="Multiplexer architecture - client, routing gateway, model pool, reward loop" />
-
-<sub>**Multiplexer** - request in, scored across a model pool, best answer out, reward fed back into the policy. &#8594; <a href="https://github.com/ManasBorole/Multiplexer">source</a></sub>
-
-<br/><br/>
-
-<img src="assets/projects/christopher-arch.svg" width="100%" alt="Christopher architecture - WebRTC, realtime speech-to-speech, memory store, session loop" />
-
-<sub>**Christopher** - audio over WebRTC into speech-to-speech, with memory that carries between sessions. &#8594; <a href="https://github.com/ManasBorole/Christopher">source</a></sub>
-
-</div>
-
-<img src="assets/dividers/divider-scanline.svg" width="100%" alt="" />
-
-<!-- ==============================  05 . TECH LABORATORY  ============================== -->
-
-<img src="assets/sections/header-lab.svg" width="100%" alt="Tech Laboratory" />
-
-<table>
-<tr>
-<td width="50%"><img src="assets/lab/lab-core.svg" width="100%" alt="Core and Languages" /></td>
-<td width="50%"><img src="assets/lab/lab-ai.svg" width="100%" alt="AI and ML" /></td>
-</tr>
-<tr>
-<td width="50%"><img src="assets/lab/lab-backend.svg" width="100%" alt="Backend" /></td>
-<td width="50%"><img src="assets/lab/lab-data.svg" width="100%" alt="Databases" /></td>
-</tr>
-<tr>
-<td width="50%"><img src="assets/lab/lab-frontend.svg" width="100%" alt="Frontend" /></td>
-<td width="50%"><img src="assets/lab/lab-infra.svg" width="100%" alt="Infra and Cloud" /></td>
-</tr>
-<tr>
-<td width="50%"><img src="assets/lab/lab-tools.svg" width="100%" alt="Developer Tools" /></td>
-<td width="50%" valign="middle" align="center"><sub><img src="assets/characters/companion-coding.svg" width="110" alt="Companion, coding" /><br/>the tools change, the taste does not</sub></td>
-</tr>
-</table>
-
-<img src="assets/dividers/divider-fog.svg" width="100%" alt="" />
-
-<!-- ==============================  06 . CURRENT EXPERIMENTS  ============================== -->
-
-<img src="assets/sections/header-experiments.svg" width="100%" alt="Current Experiments" />
-
-<div align="center">
-<img src="assets/experiments/console.svg" width="100%" alt="Active research console - team workspace, durable decision record, agent execution, voice agents" />
-</div>
-
-**Live experiment: a team workspace with an operational agent.**
-Collaboration and automation share one system. Every message carries a type, a decision or an action, so what a team agrees on becomes a durable record instead of scrolling away in a chat thread. On top of that record sits an embedded agent that works across business tools such as HubSpot and Xero. Ask it to raise a purchase order and it checks inventory and budget, flags risks like a supplier delay or a cash-flow gap, waits for human approval, then executes and logs the outcome. Every step stays traceable.
-
-<img src="assets/dividers/divider-particles.svg" width="100%" alt="" />
-
-<!-- ==============================  07 . TIMELINE  ============================== -->
-
-<img src="assets/sections/header-timeline.svg" width="100%" alt="Engineering Timeline" />
-
-<div align="center">
-<img src="assets/timeline/timeline.svg" width="80%" alt="Timeline - 2020 first code, 2022 founder, 2023 co-founder Gullak, 2024 SDE at IQCPL, 2026 AI shipped, next a company and a team workspace agent" />
-</div>
-
-<img src="assets/dividers/divider-neon.svg" width="100%" alt="" />
-
-<!-- ==============================  08 . INTERACTIVE TERMINAL  ============================== -->
-
-<img src="assets/sections/header-terminal.svg" width="100%" alt="Interactive Terminal" />
-
-<div align="center">
-<img src="assets/terminal/terminal.svg" width="100%" alt="Terminal - whoami, current focus, currently building, stack, available for, next goal" />
-</div>
-
-<img src="assets/dividers/divider-stars.svg" width="100%" alt="" />
-
-<!-- ==============================  09 . PRINCIPLES  ============================== -->
-
-<img src="assets/sections/header-principles.svg" width="100%" alt="Engineering Principles" />
-
-<div align="center">
-<img src="assets/principles/principles.svg" width="100%" alt="Engineering principles: understand the problem first, clarity over cleverness, reliability by design, ship with intention, simple systems outlast complex ones" />
-</div>
-
-<img src="assets/dividers/divider-scanline.svg" width="100%" alt="" />
-
-<!-- ==============================  10 . CONTACT  ============================== -->
-
-<img src="assets/sections/header-contact.svg" width="100%" alt="Contact" />
-
-<table>
-<tr>
-<td width="140" align="center" valign="middle"><img src="assets/characters/companion-wave.svg" width="120" alt="Companion, waving" /></td>
-<td valign="middle">
-
-If you are building something, stuck on a hard problem, or just want to talk about where AI is actually useful, say hi. Some of the best things I have done started from a random conversation.
-
-<a href="mailto:manasborole0712@gmail.com"><b>Email</b></a> &nbsp;&#183;&nbsp;
-<a href="https://linkedin.com/in/manasborole"><b>LinkedIn</b></a> &nbsp;&#183;&nbsp;
-<a href="https://github.com/ManasBorole"><b>GitHub</b></a> &nbsp;&#183;&nbsp;
-<a href="https://manasos.vercel.app"><b>Portfolio</b></a>
-
-</td>
-</tr>
-</table>
-
-<!-- ==============================  ENDING SCENE  ============================== -->
-
-<div align="center">
-<img src="assets/backgrounds/ending-scene.svg" width="100%" alt="Let us build something real." />
-</div>
+[Email](mailto:manasborole0712@gmail.com) &nbsp;&#183;&nbsp; [LinkedIn](https://linkedin.com/in/manasborole) &nbsp;&#183;&nbsp; [Portfolio](https://manasos.vercel.app)
