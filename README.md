@@ -83,10 +83,10 @@ Agents don't fail because they aren't smart enough. They fail because nobody wil
 
 ## How I work
 
-Ship it, or it isn't real. A demo nobody uses is a nicer way of not finishing.<br>
-Measure first. Guessing at bottlenecks spends a week to save a millisecond.<br>
-Small systems age well. Fewer moving parts, fewer 3am pages.<br>
-Own the whole thing, including the parts nobody else wants.
+I would rather ship a smaller version that people use than keep polishing something nobody has seen.<br>
+I measure before I optimise.<br>
+I keep systems small where I can. Fewer moving parts means less to debug when something breaks.<br>
+I own what I build end to end, including the unglamorous parts.
 
 ## How I got here
 
