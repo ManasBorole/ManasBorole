@@ -96,7 +96,7 @@ def board():
         return s
 
     out.append(f'<text x="36" y="104" font-size="40" font-weight="800" fill="{TEXT}" letter-spacing="2" filter="url(#glow)" class="m">MANAS BOROLE</text>'
-               f'<text x="38" y="128" font-size="14" fill="{MUTE}">AI engineer in Pune. Real-time voice, model routing, and the systems under them.</text>')
+               f'<text x="38" y="128" font-size="14" fill="{MUTE}">AI engineer in Pune, working on voice agents and LLM routing.</text>')
     out.append(f'<text x="36" y="184" class="sig">FLIGHT</text><text x="{36 + 9 * (cw + gap)}" y="184" class="sig">DESTINATION</text>'
                f'<text x="{W - 36}" y="184" class="sig" text-anchor="end">STATUS</text>')
     for i, (a, b, c, col) in enumerate(rows):
@@ -117,8 +117,7 @@ def load_benchmark():
 
 
 def short(model):
-    n = model.split("/")[1].replace(":free", "")
-    return n if len(n) <= 26 else n[:25] + "\u2026"
+    return model.split("/")[1].replace(":free", "").replace("-reasoning", "")
 
 
 # ------------------------------------------------------------------ air traffic control: Multiplexer's 500 real decisions
@@ -160,7 +159,7 @@ def atc(run, rows):
                f'<text x="{X0 + 30}" y="{ly + 32}" font-size="12" fill="{MUTE}">prompt mix, so it earns the traffic</text>', sec(X0 + 30) + .6),
         ("lb", f'<text x="{xo + 12:.1f}" y="{ly}" font-size="12" fill="{TEXT}">runway closed. nothing fails:</text>'
                f'<text x="{xo + 12:.1f}" y="{ly + 16}" font-size="12" fill="{MUTE}">it spreads across three runways,</text>'
-               f'<text x="{xo + 12:.1f}" y="{ly + 32}" font-size="12" fill="{MUTE}">then settles within ~50 flights</text>', sec(xo) + .3),
+               f'<text x="{xo + 12:.1f}" y="{ly + 32}" font-size="12" fill="{MUTE}">then settles in about 50 flights</text>', sec(xo) + .3),
         ("lc", f'<text x="{X1}" y="{fl[-1][1] - 8:.1f}" font-size="12" fill="{MUTE}" text-anchor="end">every request on the flagship: ${tot:.2f}</text>'
                f'<text x="{X1}" y="{S1 - 10}" font-size="12" font-weight="700" fill="{AMBERG}" text-anchor="end">routed: ${cr:.2f}, {100 * cr / tot:.0f}% of that</text>', PLAY)]
     lab_svg, lab_css = "", ""
@@ -192,7 +191,7 @@ def atc(run, rows):
             + f'<g class="ph"><rect x="{X0 - 10}" y="{R0 - 14}" width="20" height="{S1 - R0 + 14}" fill="{AMBER}" opacity=".07"/>'
             + f'<line x1="{X0}" y1="{R0 - 14}" x2="{X0}" y2="{S1}" stroke="{AMBER}" stroke-width="1.4" filter="url(#glow)"/>'
             + f'<g class="dot"><circle cx="{X0}" cy="0" r="10" fill="{AMBER}" opacity=".22" filter="url(#soft)"/><circle cx="{X0}" cy="0" r="4.2" fill="{AMBERG}" filter="url(#glow)"/></g></g>'
-            + f'<text x="36" y="{H - 24}" font-size="12" fill="{MUTE}">500 requests replayed from Multiplexer\'s own benchmark: the real routing code, simulated model answers, list prices.</text>')
+            + f'<text x="36" y="{H - 24}" font-size="12" fill="{MUTE}">Replay of 500 requests from the Multiplexer benchmark. Model answers are simulated and costs use list prices.</text>')
     css = (lab_css + f".rv{{animation:rv {T}s linear infinite}}@keyframes rv{{0%{{width:0}}{pct(PLAY)},100%{{width:{X1 - X0 + 6}px}}}}"
            f".ph{{animation:ph {T}s linear infinite}}@keyframes ph{{0%{{transform:translateX(0)}}{pct(PLAY)}{{transform:translateX({X1 - X0}px);opacity:1}}{pct(PLAY + .6)},100%{{transform:translateX({X1 - X0}px);opacity:0}}}}"
            f".dot{{animation:dot {T}s steps(1,end) infinite}}@keyframes dot{{{kd}{pct(PLAY)},100%{{transform:translateY({y[rows[-1]['model']]}px)}}}}"
@@ -237,7 +236,7 @@ def customs():
              f'<g class="wait"><rect x="130" y="{floor - 186}" width="58" height="26" rx="13" fill="{SURF2}" stroke="{TEAL}"/>'
              + "".join(f'<circle cx="{146 + k * 13}" cy="{floor - 173}" r="3" fill="{TEALG}" style="animation:pulse 1s ease-in-out {k * .2:.1f}s infinite"/>' for k in range(3))
              + '</g></g>')
-    body += f'<text x="36" y="{H - 24}" font-size="12" fill="{MUTE}">How Odyssey handles a purchase order: the model proposes, a person signs off, then it writes to HubSpot and Xero.</text>'
+    body += f'<text x="36" y="{H - 24}" font-size="12" fill="{MUTE}">How Odyssey handles a purchase order. Nothing gets written to HubSpot or Xero until a person approves it.</text>'
     css = (ROBOT_CSS
            + f".walk{{animation:walk {T}s infinite}}@keyframes walk{{0%{{transform:translateX(0);opacity:0}}3%{{opacity:1}}"
              f"{pc(3.4)},{pc(8.2)}{{transform:translateX({desk - 200}px)}}{pc(10.6)}{{transform:translateX({desk + 60}px);opacity:1}}{pc(11.4)},100%{{transform:translateX({desk + 60}px);opacity:0}}}}"
@@ -299,7 +298,7 @@ def postcards():
                 f'<text x="{cw - 61}" y="90" font-size="12" fill="{PINK}" text-anchor="middle">{name}</text>'
                 f'<text x="40" y="58" class="m" font-size="11" letter-spacing="2" fill="#6b7478">YOU SAID</text>'
                 f'<text x="40" y="90" font-size="23" fill="{PINK}">{a}<tspan fill="{AMBER}" font-weight="700" text-decoration="underline">{b}</tspan>{c}</text>'
-                f'{wave}<text x="40" y="146" font-size="11" fill="#6b7478">the slip, heard in the audio rather than read from a transcript</text>'
+                f'{wave}<text x="40" y="146" font-size="11" fill="#6b7478">the mistake, picked up from the audio</text>'
                 f'<g class="reply r{i}"><text x="40" y="172" class="m" font-size="11" letter-spacing="2" fill="#6b7478">CHRISTOPHER</text>'
                 f'<text x="40" y="202" font-size="23" fill="{PINK}">{d}<tspan fill="{TEAL}" font-weight="700">{e}</tspan>{f}</text></g></g>')
 
@@ -317,7 +316,7 @@ def postcards():
                 f"{pc(a1)},{pc(h1)}{{opacity:1;transform:translate(0,0) rotate(-1.5deg)}}"
                 f"{pc(l1)},100%{{opacity:0;transform:translate(-640px,60px) rotate(-16deg)}}}}"
                 f".r{i}{{opacity:0;animation:r{i} {T}s infinite}}@keyframes r{i}{{0%,{pc(t0 + 1.9)}{{opacity:0}}{pc(t0 + 2.3)},{pc(h1)}{{opacity:1}}{pc(l1)},100%{{opacity:0}}}}")
-    body += f'<text x="36" y="{H - 24}" font-size="12" fill="{MUTE}">One slip on the past tense, caught by ear and corrected, the way Christopher\'s own demo plays it across 14 languages.</text>'
+    body += f'<text x="36" y="{H - 24}" font-size="12" fill="{MUTE}">Each card shows a past-tense mistake and the correction Christopher replies with. Its demo does this in 14 languages.</text>'
     return panel(H, "AIRMAIL  /  CHRISTOPHER", "183 LANGUAGES", body, css)
 
 
@@ -327,7 +326,7 @@ def passes():
     pc = lambda t: f"{100 * t / T:.3f}%"
     legs = [("NSK", "2020", "B.Tech, CS (AI/ML)", "Sandip University", "CGPA 8.27, ran hackathons"),
             ("NSK", "2022", "Founder, co-founder", "B&amp;B Fashion, Gullak", "learned what shipping costs"),
-            ("PNQ", "2024", "Software engineer", "IQCPL", "20+ clients, ~30% less chasing"),
+            ("PNQ", "2024", "Software engineer", "IQCPL", "20+ clients, 30% less chasing"),
             ("PNQ", "2026", "Software engineer", "UK RegTech fintech, remote", "7 endpoints closed, 450+ tests")]
     pw, ph, gap, top = 180, 290, 16, 66
     x0 = (W - (4 * pw + 3 * gap)) / 2
@@ -412,7 +411,7 @@ def backchannel():
             + f'{bars(caller, cy2, TEALG)}{bars(agent_after, ay2, AMBER)}</g>{tag_svg}'
             + f'<line class="ph" x1="{X0}" y1="{cy - 26}" x2="{X0}" y2="{ay2 + 26}" stroke="{AMBERG}" stroke-width="1.4" filter="url(#glow)"/>'
             + f'<text x="{X0}" y="{H - 44}" class="m" font-size="12" fill="{TEXT}">fix: wait longer after a mid-sentence pause, answer sooner once the caller is done</text>'
-            + f'<text x="36" y="{H - 22}" font-size="12" fill="{MUTE}">Illustrated. Backchannel measures these moments from each audio channel, to the millisecond. In active development.</text>')
+            + f'<text x="36" y="{H - 22}" font-size="12" fill="{MUTE}">An example call, not recorded data. Backchannel is still in development.</text>')
     css = (tag_css + f".rv{{animation:rv {T}s linear infinite}}@keyframes rv{{0%{{width:0}}{pc(SEC)},100%{{width:{X1 - X0 + 60}px}}}}"
            f".ph{{animation:ph {T}s linear infinite}}@keyframes ph{{0%{{transform:translateX(0)}}{pc(SEC)}{{transform:translateX({X1 - X0}px);opacity:1}}"
            f"{pc(SEC + .4)},100%{{transform:translateX({X1 - X0}px);opacity:0}}}}")
