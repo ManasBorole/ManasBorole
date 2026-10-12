@@ -363,13 +363,71 @@ def passes():
     return panel(H, "BOARDING PASSES  /  HOW I GOT HERE", "2020 TO NOW", body, css)
 
 
+# ------------------------------------------------------------------ Backchannel: a call where the agent steps on the caller, then the same call with the fix
+def backchannel():
+    H, X0, X1, SEC = 470, 150, 800, 10.0
+    sx = lambda t: X0 + (X1 - X0) * t / SEC
+    T = SEC + 3
+    pc = lambda t: f"{100 * t / T:.3f}%"
+    rnd = random.Random(8)
+    lanes = {"before": (112, 160), "after": (300, 348)}  # caller y, agent y
+    caller = [(0.3, 2.5), (3.0, 4.6)]                     # a thinking pause inside one sentence
+    agent_before = [(2.7, 4.1), (7.7, 9.4)]               # jumps into the pause, then 3.1 s of dead air
+    agent_after = [(5.2, 7.4)]                            # waits for the caller to finish, then answers
+
+    def bars(spans, y, col):
+        out = ""
+        for a, b in spans:
+            t = a
+            while t < b:
+                h = 5 + 24 * rnd.random() * (0.45 + 0.55 * abs(((t * 6) % 2) - 1))
+                out += f'<rect x="{sx(t):.1f}" y="{y - h / 2:.1f}" width="3" height="{h:.1f}" rx="1.5" fill="{col}"/>'
+                t += .05
+        return out
+
+    def lane_labels(key, title):
+        cy, ay = lanes[key]
+        return (f'<text x="36" y="{cy - 52}" class="sig">{title}</text>'
+                f'<text x="{X0 - 16}" y="{cy + 4}" class="sig" text-anchor="end">CALLER</text>'
+                f'<text x="{X0 - 16}" y="{ay + 4}" class="sig" text-anchor="end">AGENT</text>'
+                f'<line x1="{X0}" y1="{cy}" x2="{X1}" y2="{cy}" stroke="{LINE}"/><line x1="{X0}" y1="{ay}" x2="{X1}" y2="{ay}" stroke="{LINE}"/>')
+
+    cy, ay = lanes["before"]
+    flags = (f'<rect x="{sx(3.0):.1f}" y="{cy - 22}" width="{sx(4.1) - sx(3.0):.1f}" height="{ay - cy + 44}" fill="{AMBER}" opacity=".12"/>'
+             f'<line x1="{sx(2.7):.1f}" y1="{cy - 24}" x2="{sx(2.7):.1f}" y2="{ay + 22}" stroke="{AMBER}" stroke-dasharray="2 3"/>'
+             f'<path d="M{sx(4.6):.1f},{ay + 26} l0,6 L{sx(7.7):.1f},{ay + 32} l0,-6" fill="none" stroke="{AMBER}"/>')
+    tags = [("fa", f'<text x="{sx(2.7) - 6:.1f}" y="{cy - 28}" font-size="12" font-weight="700" fill="{AMBERG}" text-anchor="end">cut off mid-sentence</text>', 2.7),
+            ("fb", f'<text x="{sx(3.55):.1f}" y="{ay + 36}" font-size="12" font-weight="700" fill="{AMBERG}" text-anchor="middle">talking over, 1.1 s</text>', 4.1),
+            ("fc", f'<text x="{sx(6.15):.1f}" y="{ay + 48}" font-size="12" font-weight="700" fill="{AMBERG}" text-anchor="middle">dead air, 3.1 s</text>', 7.7)]
+    cy2, ay2 = lanes["after"]
+    tags.append(("fd", f'<circle cx="{sx(5.2) + 6:.1f}" cy="{ay2 + 34}" r="9" fill="{TEAL}" opacity=".2"/>'
+                       f'<path d="M{sx(5.2) + 2:.1f},{ay2 + 34} l3,3 l6,-7" fill="none" stroke="{TEALG}" stroke-width="2"/>'
+                       f'<text x="{sx(5.2) + 22:.1f}" y="{ay2 + 38}" font-size="12" font-weight="700" fill="{TEALG}">waits for the caller to finish. no cut-offs, no dead air</text>', 7.4))
+    tag_svg, tag_css = "", ""
+    for nm, el, t in tags:
+        a_, b_ = appear(nm, el, t, T)
+        tag_svg += a_; tag_css += b_
+    body = (lane_labels("before", "THE CALL AS IT HAPPENED") + lane_labels("after", "THE SAME CALL, SIMULATED WITH THE FIX")
+            + f'<g clip-path="url(#rv)">{bars(caller, cy, TEALG)}{bars(agent_before, ay, AMBER)}{flags}'
+            + f'{bars(caller, cy2, TEALG)}{bars(agent_after, ay2, AMBER)}</g>{tag_svg}'
+            + f'<line class="ph" x1="{X0}" y1="{cy - 26}" x2="{X0}" y2="{ay2 + 26}" stroke="{AMBERG}" stroke-width="1.4" filter="url(#glow)"/>'
+            + f'<text x="{X0}" y="{H - 44}" class="m" font-size="12" fill="{TEXT}">fix: wait longer after a mid-sentence pause, answer sooner once the caller is done</text>'
+            + f'<text x="36" y="{H - 22}" font-size="12" fill="{MUTE}">Illustrated. Backchannel measures these moments from each audio channel, to the millisecond. In active development.</text>')
+    css = (tag_css + f".rv{{animation:rv {T}s linear infinite}}@keyframes rv{{0%{{width:0}}{pc(SEC)},100%{{width:{X1 - X0 + 60}px}}}}"
+           f".ph{{animation:ph {T}s linear infinite}}@keyframes ph{{0%{{transform:translateX(0)}}{pc(SEC)}{{transform:translateX({X1 - X0}px);opacity:1}}"
+           f"{pc(SEC + .4)},100%{{transform:translateX({X1 - X0}px);opacity:0}}}}")
+    return panel(H, "CONTROL TOWER  /  BACKCHANNEL", "STEPPED-ON TRANSMISSIONS", body, css,
+                 f'<clipPath id="rv"><rect class="rv" x="{X0 - 140}" y="0" width="0" height="{H}"/></clipPath>')
+
+
 ALT = {
     "board": 'Departures board for Manas Borole, flipping on a loop. Now: UK RegTech fintech. Building: Backchannel. Shipping: Odyssey. Learning: voice AI at real latency. Open for: problems that ship.',
     "atc": 'Air traffic control for Multiplexer: 500 real routing decisions replayed. It tries every model, settles on one, loses it at request 300 and recovers within about 50 requests, spending $0.07 where the flagship would cost $1.81.',
     "customs": 'The companion robot, as Odyssey, carries a purchase order past stock, budget and risk checks, waits at customs until a person stamps it approved, then goes on to Xero and HubSpot.',
     "arrivals": 'The companion robot waves at arrivals. Say hi.',
     "postcards": 'Airmail postcards in Spanish, French, Hindi, Japanese, German and Portuguese. In each, the learner slips on the past tense, Christopher hears it in the audio and replies with the correction.',
-    "passes": 'Four boarding passes print from a kiosk: Nashik 2020, B.Tech at Sandip University. Nashik 2022, founder and co-founder at B&B Fashion and Gullak. Pune 2024, software engineer at IQCPL. Pune 2026, software engineer, remote, for a UK RegTech fintech. Next: a company of my own.'}
+    "passes": 'Four boarding passes print from a kiosk: Nashik 2020, B.Tech at Sandip University. Nashik 2022, founder and co-founder at B&B Fashion and Gullak. Pune 2024, software engineer at IQCPL. Pune 2026, software engineer, remote, for a UK RegTech fintech. Next: a company of my own.',
+    "backchannel": 'A voice call replayed on two channels. The agent cuts the caller off during a thinking pause, talks over them for 1.1 seconds, then leaves 3.1 seconds of dead air. Below, the same call simulated with the fix: no cut-offs, no dead air.'}
 
 
 PANELS = {
@@ -379,6 +437,7 @@ PANELS = {
         "arrivals": lambda: arrivals(),
         "postcards": lambda: postcards(),
         "passes": lambda: passes(),
+        "backchannel": lambda: backchannel(),
 }
 
 
