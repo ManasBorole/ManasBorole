@@ -420,13 +420,13 @@ def backchannel():
 
 
 ALT = {
-    "board": 'Departures board for Manas Borole, flipping on a loop. Now: UK RegTech fintech. Building: Backchannel. Shipping: Odyssey. Learning: voice AI at real latency. Open for: problems that ship.',
-    "atc": 'Air traffic control for Multiplexer: 500 real routing decisions replayed. It tries every model, settles on one, loses it at request 300 and recovers within about 50 requests, spending $0.07 where the flagship would cost $1.81.',
-    "customs": 'The companion robot, as Odyssey, carries a purchase order past stock, budget and risk checks, waits at customs until a person stamps it approved, then goes on to Xero and HubSpot.',
-    "arrivals": 'The companion robot waves at arrivals. Say hi.',
-    "postcards": 'Airmail postcards in Spanish, French, Hindi, Japanese, German and Portuguese. In each, the learner slips on the past tense, Christopher hears it in the audio and replies with the correction.',
-    "passes": 'Four boarding passes print from a kiosk: Nashik 2020, B.Tech at Sandip University. Nashik 2022, founder and co-founder at B&B Fashion and Gullak. Pune 2024, software engineer at IQCPL. Pune 2026, software engineer, remote, for a UK RegTech fintech. Next: a company of my own.',
-    "backchannel": 'A voice call replayed on two channels. The agent cuts the caller off during a thinking pause, talks over them for 1.1 seconds, then leaves 3.1 seconds of dead air. Below, the same call simulated with the fix: no cut-offs, no dead air.'}
+    "board": 'Departures board for Manas Borole',
+    "atc": 'Multiplexer routing 500 requests across 13 models',
+    "customs": 'Odyssey holding a purchase order until a person approves it',
+    "arrivals": 'Arrivals board with the robot waving',
+    "postcards": 'Postcards where Christopher corrects the past tense in six languages',
+    "passes": 'Boarding passes for each step from 2020 to 2026',
+    "backchannel": 'A voice call where the agent cuts off the caller, and the same call with the fix'}
 
 # GitHub only plays videos uploaded through its own editor, so these are user-attachments links
 VIDEO = {"mx": "https://github.com/user-attachments/assets/94723dfa-5ceb-47d3-9e1e-b2fad23fc213",

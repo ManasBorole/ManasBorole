@@ -1,4 +1,4 @@
-<img src="assets/panels/board.svg" width="100%" alt="Departures board for Manas Borole, flipping on a loop. Now: UK RegTech fintech. Building: Backchannel. Shipping: Odyssey. Learning: voice AI at real latency. Open for: problems that ship.">
+<img src="assets/panels/board.svg" width="100%" alt="Departures board for Manas Borole">
 
 Most of what I build sits underneath AI products, in the parts that tend to break once real users show up. Lately that has mostly been voice agents and LLM routing.
 
@@ -12,7 +12,7 @@ Right now I am a software engineer at a UK RegTech fintech, and on the side I am
 
 An LLM gateway that learns, per request, which of 13 models to call. LinUCB scores each request on cost, latency and quality, a judge grades the answer, and the grade feeds back into the router. When a model fails, the next healthy one answers.
 
-<img src="assets/panels/atc.svg" width="100%" alt="Air traffic control for Multiplexer: 500 real routing decisions replayed. It tries every model, settles on one, loses it at request 300 and recovers within about 50 requests, spending $0.07 where the flagship would cost $1.81.">
+<img src="assets/panels/atc.svg" width="100%" alt="Multiplexer routing 500 requests across 13 models">
 
 The panel above replays 500 requests from its benchmark. On the Balanced setting it keeps about three quarters of the flagship's quality for under 5% of the cost. Most of the work went into designing the reward function.
 
@@ -24,7 +24,7 @@ The panel above replays 500 requests from its benchmark. On the Balanced setting
 
 A language tutor you talk to out loud, in 183 languages. Speech goes straight from the browser to OpenAI's Realtime API over WebRTC, so replies come back fast enough to feel like a conversation. It grades pronunciation from the audio itself. Speech-to-text tends to clean up mispronounced words, so grading from a transcript would miss most mistakes.
 
-<img src="assets/panels/postcards.svg" width="100%" alt="Airmail postcards in Spanish, French, Hindi, Japanese, German and Portuguese. In each, the learner slips on the past tense, Christopher hears it in the audio and replies with the correction.">
+<img src="assets/panels/postcards.svg" width="100%" alt="Postcards where Christopher corrects the past tense in six languages">
 
 The tricky part was turn-taking. It waits for 550 ms of silence before deciding you have finished, which is long enough for a learner to hunt for a word without being interrupted.
 
@@ -38,7 +38,7 @@ The tricky part was turn-taking. It waits for 550 ms of silence before deciding 
 
 Voice agents rarely fail on what they say. They fail on when: jumping in before the caller finishes, talking over them, or leaving a silence that feels like a dropped call. Backchannel finds those moments in calls on Vapi, to the millisecond, and works out which turn-taking settings would have prevented them, with the evidence attached.
 
-<img src="assets/panels/backchannel.svg" width="100%" alt="A voice call replayed on two channels. The agent cuts the caller off during a thinking pause, talks over them for 1.1 seconds, then leaves 3.1 seconds of dead air. Below, the same call simulated with the fix: no cut-offs, no dead air.">
+<img src="assets/panels/backchannel.svg" width="100%" alt="A voice call where the agent cuts off the caller, and the same call with the fix">
 
 <details>
 <summary>How it works, and where it stands</summary>
@@ -62,7 +62,7 @@ Everyone measures how fast voice agents respond. Almost nobody measures whether 
 
 An agent that turns a team's messages, emails and CRM webhooks into writes on live HubSpot and Xero accounts, but only after a person approves them.
 
-<img src="assets/panels/customs.svg" width="100%" alt="The companion robot, as Odyssey, carries a purchase order past stock, budget and risk checks, waits at customs until a person stamps it approved, then goes on to Xero and HubSpot.">
+<img src="assets/panels/customs.svg" width="100%" alt="Odyssey holding a purchase order until a person approves it">
 
 Agents don't fail because they aren't smart enough. They fail because nobody will give them write access. So I built the permission layer first: one approval queue for every trigger, an allowlist that blocks hallucinated or injected writes, idempotency keys so a retry never writes twice, and per-user OAuth with encrypted tokens and signed webhooks.
 
@@ -90,7 +90,7 @@ I own what I build end to end, including the unglamorous parts.
 
 ## How I got here
 
-<img src="assets/panels/passes.svg" width="100%" alt="Four boarding passes print from a kiosk: Nashik 2020, B.Tech at Sandip University. Nashik 2022, founder and co-founder at B&B Fashion and Gullak. Pune 2024, software engineer at IQCPL. Pune 2026, software engineer, remote, for a UK RegTech fintech. Next: a company of my own.">
+<img src="assets/panels/passes.svg" width="100%" alt="Boarding passes for each step from 2020 to 2026">
 
 <details>
 <summary>The full timeline</summary>
@@ -123,7 +123,7 @@ I own what I build end to end, including the unglamorous parts.
 
 ## Say hi
 
-<img src="assets/panels/arrivals.svg" width="100%" alt="The companion robot waves at arrivals. Say hi.">
+<img src="assets/panels/arrivals.svg" width="100%" alt="Arrivals board with the robot waving">
 
 If you are working on something similar, or want to talk about any of these projects, send me an email or message me on LinkedIn.
 
