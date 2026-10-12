@@ -1,12 +1,12 @@
 {{board}}
 
-I build the parts of AI products that decide whether they feel effortless or fall apart under load: real-time voice, model routing, and agents you can safely give write access to.
+Most of what I build sits underneath AI products, in the parts that tend to break once real users show up. Lately that has mostly been voice agents and LLM routing.
 
-Right now I'm a software engineer at a UK RegTech fintech, and on the side I'm teaching AI phone agents when to stop talking.
+Right now I am a software engineer at a UK RegTech fintech, and on the side I am teaching AI phone agents when to stop talking.
 
 [Portfolio](https://manasos.vercel.app) &nbsp;&#183;&nbsp; [LinkedIn](https://linkedin.com/in/manasborole) &nbsp;&#183;&nbsp; [Email](mailto:manasborole0712@gmail.com)
 
-<sub>Most of my work lives in private codebases, so this page is what I built on my own and shipped. Every animation on it is real data, or a real behaviour of the system it shows.</sub>
+<sub>Most of my day-to-day work is in private codebases, so this page covers the things I built on my own.</sub>
 
 ## Multiplexer
 
@@ -125,6 +125,6 @@ Own the whole thing, including the parts nobody else wants.
 
 {{arrivals}}
 
-Building something, stuck on something hard, or want to argue about where AI is actually useful? Write to me. Some of the best things I've done started as a random conversation.
+If you are working on something similar, or want to talk about any of these projects, send me an email or message me on LinkedIn.
 
 [Email](mailto:manasborole0712@gmail.com) &nbsp;&#183;&nbsp; [LinkedIn](https://linkedin.com/in/manasborole) &nbsp;&#183;&nbsp; [Portfolio](https://manasos.vercel.app)
