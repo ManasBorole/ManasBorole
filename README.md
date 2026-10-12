@@ -14,7 +14,7 @@ An LLM gateway that learns, per request, which of 13 models to call. LinUCB scor
 
 <img src="assets/panels/atc.svg" width="100%" alt="Air traffic control for Multiplexer: 500 real routing decisions replayed. It tries every model, settles on one, loses it at request 300 and recovers within about 50 requests, spending $0.07 where the flagship would cost $1.81.">
 
-That is 500 requests from its benchmark, replayed. On the Balanced setting it keeps about three quarters of the flagship's quality for under 5% of the spend. The hard part was making the reward honest, because a router is only as good as its definition of "better".
+The panel above replays 500 requests from its benchmark. On the Balanced setting it keeps about three quarters of the flagship's quality for under 5% of the cost. Most of the work went into designing the reward function.
 
 <video src="https://github.com/user-attachments/assets/94723dfa-5ceb-47d3-9e1e-b2fad23fc213" poster="assets/projects/multiplexer-trailer-poster.jpg" controls playsinline width="100%"></video>
 
@@ -22,11 +22,11 @@ That is 500 requests from its benchmark, replayed. On the Balanced setting it ke
 
 ## Christopher
 
-A language tutor you talk to out loud, in 183 languages. Speech goes straight from the browser to OpenAI's Realtime API over WebRTC, so replies come back fast enough to feel like a conversation. It grades pronunciation from the audio itself, because a transcript quietly fixes your mistakes before anyone can mark them.
+A language tutor you talk to out loud, in 183 languages. Speech goes straight from the browser to OpenAI's Realtime API over WebRTC, so replies come back fast enough to feel like a conversation. It grades pronunciation from the audio itself. Speech-to-text tends to clean up mispronounced words, so grading from a transcript would miss most mistakes.
 
 <img src="assets/panels/postcards.svg" width="100%" alt="Airmail postcards in Spanish, French, Hindi, Japanese, German and Portuguese. In each, the learner slips on the past tense, Christopher hears it in the audio and replies with the correction.">
 
-The tricky part was turn-taking. It waits for 550 ms of silence before deciding you've finished, which is long enough for a learner to hunt for a word without being interrupted.
+The tricky part was turn-taking. It waits for 550 ms of silence before deciding you have finished, which is long enough for a learner to hunt for a word without being interrupted.
 
 <video src="https://github.com/user-attachments/assets/8996d7fe-df6b-4a39-a01a-a9ca992a7825" poster="assets/projects/christopher-trailer-poster.jpg" controls playsinline width="100%"></video>
 
@@ -47,16 +47,16 @@ Voice agents rarely fail on what they say. They fail on when: jumping in before 
 - Speech is detected on the caller and agent channels separately, with my own wrapper around Silero VAD, so overlaps and gaps are measured from the audio rather than guessed from a transcript.
 - A simulator of Vapi's own endpointing predicts when the agent would have started speaking, for any recorded call and any configuration. That means thousands of settings can be tested offline for free instead of paying for trial calls.
 - The best candidates are confirmed with paired real replays, then rolled out to a small share of calls first.
-- The live demo is a fictional clinic answered by a squad of AI receptionists. Call it, then watch your own call get diagnosed: timeline, flagged moments, and the fix.
+- The live demo is a fictional clinic with AI receptionists answering the phone. You can call it and then see the diagnosis of your own call, with the problem moments marked on a timeline and the suggested fix.
 
 Done so far: the architecture and spec, a voice-detection layer that catches the start of speech within 18 ms at 60 to 150 times real time, the web-call pipeline, and durable background jobs. Next come the detectors and the endpointing simulator.
 
-The targets I'm holding myself to: simulator timing within 150 ms median error, published; detectors at 0.85 precision or better on hand-labelled turns; and before-and-after numbers on 50+ calls.
+The targets I am holding myself to: simulator timing within 150 ms median error, published; detectors at 0.85 precision or better on hand-labelled turns; and before-and-after numbers on 50+ calls.
 
 <sub>TypeScript, Next.js, Vapi, Silero VAD (ONNX), Vercel Workflow, Neon Postgres, Cloudflare R2</sub>
 </details>
 
-Everyone measures how fast voice agents respond. Almost nobody measures whether they let you finish, and being cut off mid-sentence is the moment a caller decides they're talking to a machine. <sub>In active development, built in public. Live demo coming soon.</sub>
+Everyone measures how fast voice agents respond. Almost nobody measures whether they let you finish, and being cut off mid-sentence is the moment a caller decides they are talking to a machine. <sub>In active development, built in public. Live demo coming soon.</sub>
 
 ### Odyssey
 
@@ -64,7 +64,7 @@ An agent that turns a team's messages, emails and CRM webhooks into writes on li
 
 <img src="assets/panels/customs.svg" width="100%" alt="The companion robot, as Odyssey, carries a purchase order past stock, budget and risk checks, waits at customs until a person stamps it approved, then goes on to Xero and HubSpot.">
 
-Agents don't fail because they aren't smart enough. They fail because nobody will give them write access. So I built the permission layer first: one approval queue for every trigger, an allowlist that blocks hallucinated or injected writes, idempotency keys so a retry never writes twice, and per-user OAuth with encrypted tokens and signed webhooks. The model is the part that's easy to swap.
+Agents don't fail because they aren't smart enough. They fail because nobody will give them write access. So I built the permission layer first: one approval queue for every trigger, an allowlist that blocks hallucinated or injected writes, idempotency keys so a retry never writes twice, and per-user OAuth with encrypted tokens and signed webhooks.
 
 [Try it](https://odysseylabs.vercel.app) &nbsp;&#183;&nbsp; <sub>Next.js, TypeScript, Anthropic and OpenAI, HubSpot, Xero, Prisma</sub>
 
@@ -102,7 +102,7 @@ Own the whole thing, including the parts nobody else wants.
 | 2022 | Founder, B&B Fashion | Ran a real business end to end and learned what shipping costs. |
 | 2023 | Co-founder, Gullak | One of two founding engineers on an investing platform in Nashik. |
 | 2024 | Software Development Engineer, IQCPL | Built the certification and audit backend for 20+ clients in Pune. Cut auditor coordination by about 30%. |
-| 2026 | Shipped Odyssey, Multiplexer and Christopher | An approval-first agent, a learning router, and a voice tutor, all live. |
+| 2026 | Shipped Odyssey, Multiplexer and Christopher | All three are live with public demos. |
 | 2026 | Software engineer, UK RegTech fintech (remote) | Closed 7 unauthenticated endpoints and put 450+ tests behind the flows. |
 | Next | A company of my own | |
 
