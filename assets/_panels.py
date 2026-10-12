@@ -430,8 +430,8 @@ ALT = {
     "backchannel": 'A voice call replayed on two channels. The agent cuts the caller off during a thinking pause, talks over them for 1.1 seconds, then leaves 3.1 seconds of dead air. Below, the same call simulated with the fix: no cut-offs, no dead air.'}
 
 # GitHub only plays videos uploaded through its own editor, so these are user-attachments links
-VIDEO = {"mx": "https://github.com/user-attachments/assets/22fe7aed-8271-4350-9aab-5c5736a5e78b",
-         "ch": "https://github.com/user-attachments/assets/551c2e83-8616-4b86-9ef4-9fdc203ba427"}
+VIDEO = {"mx": "https://github.com/user-attachments/assets/94723dfa-5ceb-47d3-9e1e-b2fad23fc213",
+         "ch": "https://github.com/user-attachments/assets/8996d7fe-df6b-4a39-a01a-a9ca992a7825"}
 POSTER = {"mx": "assets/projects/multiplexer-trailer-poster.jpg", "ch": "assets/projects/christopher-trailer-poster.jpg"}
 
 

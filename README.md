@@ -16,7 +16,7 @@ An LLM gateway that learns, per request, which of 13 models to call. LinUCB scor
 
 That is 500 requests from its benchmark, replayed. On the Balanced setting it keeps about three quarters of the flagship's quality for under 5% of the spend. The hard part was making the reward honest, because a router is only as good as its definition of "better".
 
-<video src="https://github.com/user-attachments/assets/22fe7aed-8271-4350-9aab-5c5736a5e78b" poster="assets/projects/multiplexer-trailer-poster.jpg" controls playsinline width="100%"></video>
+<video src="https://github.com/user-attachments/assets/94723dfa-5ceb-47d3-9e1e-b2fad23fc213" poster="assets/projects/multiplexer-trailer-poster.jpg" controls playsinline width="100%"></video>
 
 [Try it](https://multiplexer-routes.vercel.app) &nbsp;&#183;&nbsp; [Source](https://github.com/ManasBorole/Multiplexer) &nbsp;&#183;&nbsp; <sub>TypeScript, Next.js, OpenRouter, Upstash</sub>
 
@@ -28,7 +28,7 @@ A language tutor you talk to out loud, in 183 languages. Speech goes straight fr
 
 The tricky part was turn-taking. It waits for 550 ms of silence before deciding you've finished, which is long enough for a learner to hunt for a word without being interrupted.
 
-<video src="https://github.com/user-attachments/assets/551c2e83-8616-4b86-9ef4-9fdc203ba427" poster="assets/projects/christopher-trailer-poster.jpg" controls playsinline width="100%"></video>
+<video src="https://github.com/user-attachments/assets/8996d7fe-df6b-4a39-a01a-a9ca992a7825" poster="assets/projects/christopher-trailer-poster.jpg" controls playsinline width="100%"></video>
 
 [Try it](https://christopherai.vercel.app) &nbsp;&#183;&nbsp; [Source](https://github.com/ManasBorole/Christopher) &nbsp;&#183;&nbsp; <sub>WebRTC, OpenAI Realtime, React</sub>
 
