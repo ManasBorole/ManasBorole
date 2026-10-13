@@ -6,8 +6,6 @@ Right now I am a software engineer at a UK RegTech fintech, and on the side I am
 
 [Portfolio](https://manasos.vercel.app) &nbsp;&#183;&nbsp; [LinkedIn](https://linkedin.com/in/manasborole) &nbsp;&#183;&nbsp; [Email](mailto:manasborole0712@gmail.com)
 
-<sub>Most of my day-to-day work is in private codebases, so this page covers the things I built on my own.</sub>
-
 ## Multiplexer
 
 An LLM gateway that learns, per request, which of 13 models to call. LinUCB scores each request on cost, latency and quality, a judge grades the answer, and the grade feeds back into the router. When a model fails, the next healthy one answers.
@@ -103,7 +101,7 @@ I own what I build end to end, including the unglamorous parts.
 | 2023 | Co-founder, Gullak | One of two founding engineers on an investing platform in Nashik. |
 | 2024 | Software Development Engineer, IQCPL | Built the certification and audit backend for 20+ clients in Pune. Cut auditor coordination by about 30%. |
 | 2026 | Shipped Odyssey, Multiplexer and Christopher | All three are live with public demos. |
-| 2026 | Software engineer, UK RegTech fintech (remote) | Closed 7 unauthenticated endpoints and put 450+ tests behind the flows. |
+| 2026 | Software engineer, UK RegTech fintech (remote) | Engineer on a regulated onboarding platform, where every stored field can be traced back to its source for audits. Submissions save across 11 tables in one transaction, so a failed save can never show up as a success. |
 | Next | A company of my own | |
 
 </details>

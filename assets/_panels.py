@@ -327,7 +327,7 @@ def passes():
     legs = [("NSK", "2020", "B.Tech, CS (AI/ML)", "Sandip University", "CGPA 8.27, ran hackathons"),
             ("NSK", "2022", "Founder, co-founder", "B&amp;B Fashion, Gullak", "learned what shipping costs"),
             ("PNQ", "2024", "Software engineer", "IQCPL", "20+ clients, 30% less chasing"),
-            ("PNQ", "2026", "Software engineer", "UK RegTech fintech, remote", "7 endpoints closed, 450+ tests")]
+            ("PNQ", "2026", "Software engineer", "UK RegTech fintech, remote", "Regulated onboarding platform\nwith a full audit trail")]
     pw, ph, gap, top = 180, 290, 16, 66
     x0 = (W - (4 * pw + 3 * gap)) / 2
     rnd = random.Random(5)
@@ -347,8 +347,8 @@ def passes():
              f'<text x="{pw - 14}" y="122" class="m" font-size="16" font-weight="700" fill="{AMBER}" text-anchor="end">{yr}</text>'
              f'<text x="14" y="152" font-size="13" font-weight="700" fill="{PINK}">{role}</text>'
              f'<text x="14" y="170" font-size="12" fill="{PINK}">{org}</text>'
-             f'<text x="14" y="194" font-size="11" fill="#6b7478">{note}</text>'
-             f'<line x1="8" y1="{ph - 62}" x2="{pw - 8}" y2="{ph - 62}" stroke="#9aa4a8" stroke-dasharray="4 4"/>'
+             + "".join(f'<text x="14" y="{194 + 14 * k}" font-size="11" fill="#6b7478">{ln}</text>' for k, ln in enumerate(note.split("\n")))
+             + f'<line x1="8" y1="{ph - 62}" x2="{pw - 8}" y2="{ph - 62}" stroke="#9aa4a8" stroke-dasharray="4 4"/>'
              f'<g class="stub s{i}">{bars}<text x="{pw - 14}" y="{ph - 22}" class="m" font-size="10" fill="#6b7478" text-anchor="end">GATE 0{i + 1}</text></g>')
         body += (f'<clipPath id="slot{i}"><rect x="{x - 4}" y="{top}" width="{pw + 8}" height="{ph + 30}"/></clipPath>'
                  f'<g clip-path="url(#slot{i})"><g transform="translate({x},{top})"><g class="pr p{i}">{p}</g></g></g>')
