@@ -2,7 +2,7 @@
 
 Most of what I build sits underneath AI products, in the parts that tend to break once real users show up. Lately that has mostly been voice agents and LLM routing.
 
-Right now I am a software engineer at a UK RegTech fintech, and on the side I am teaching AI phone agents when to stop talking.
+Right now I am a software engineer at Wizworks, a UK RegTech fintech, and on the side I am teaching AI phone agents when to stop talking.
 
 [Portfolio](https://manasos.vercel.app) &nbsp;&#183;&nbsp; [LinkedIn](https://linkedin.com/in/manasborole) &nbsp;&#183;&nbsp; [Email](mailto:manasborole0712@gmail.com)
 
@@ -99,9 +99,9 @@ I own what I build end to end, including the unglamorous parts.
 | 2020 | B.Tech in CS (AI/ML), Sandip University | Graduated 2024 with a CGPA of 8.27. Ran hackathons with SUAISA. |
 | 2022 | Founder, B&B Fashion | Ran a real business end to end and learned what shipping costs. |
 | 2023 | Co-founder, Gullak | One of two founding engineers on an investing platform in Nashik. |
-| 2024 | Software Development Engineer, IQCPL | Built the certification and audit backend for 20+ clients in Pune. Cut auditor coordination by about 30%. |
-| 2026 | Shipped Odyssey, Multiplexer and Christopher | All three are live with public demos. |
-| 2026 | Software engineer, UK RegTech fintech (remote) | Engineer on a regulated onboarding platform, where every stored field can be traced back to its source for audits. Submissions save across 11 tables in one transaction, so a failed save can never show up as a success. |
+| 2024 | Software Development Engineer, IQCPL | Worked on the certification and audit platform for 20+ clients in Pune, with dashboards that cut status-chasing time by about 30%. |
+| 2026 | Shipped Odyssey, Multiplexer and Christopher | Multiplexer and Christopher are live, Odyssey is in private beta. |
+| 2026 | Software engineer, Wizworks, a UK RegTech fintech (remote) | Engineer on a regulated onboarding platform, where every stored field can be traced back to its source for audits. Submissions save across 11 tables in one transaction, so a failed save can never show up as a success. |
 | Next | A company of my own | |
 
 </details>
