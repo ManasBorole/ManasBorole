@@ -64,7 +64,7 @@ An agent that turns a team's messages, emails and CRM webhooks into writes on li
 
 Agents don't fail because they aren't smart enough. They fail because nobody will give them write access. So I built the permission layer first: one approval queue for every trigger, an allowlist that blocks hallucinated or injected writes, idempotency keys so a retry never writes twice, and per-user OAuth with encrypted tokens and signed webhooks.
 
-[Try it](https://odysseylabs.vercel.app) &nbsp;&#183;&nbsp; <sub>Next.js, TypeScript, Anthropic and OpenAI, HubSpot, Xero, Prisma</sub>
+[Join the waitlist](https://odysseylabs.vercel.app) &nbsp;&#183;&nbsp; <sub>Next.js, TypeScript, Anthropic and OpenAI, HubSpot, Xero, Prisma</sub>
 
 ## Also built
 
